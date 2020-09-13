@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".AddPageActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/nv_titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="标准地调查记录表" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_ydno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入样带编号"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="样带编号" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_fczlb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请选择分场(造林部)"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="分场(造林部)" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_sz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入树种"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="树种" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_qy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请选择起源"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="起源" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_cfdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入采伐地点"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="采伐地点" />
+
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_lban"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入林班"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="林班" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_xban"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入小班"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="小班" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_zlnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入造林年度"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="造林年度" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_ybd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入郁闭度"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="郁闭度" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
+
+                <LinearLayout
+                    android:id="@+id/item_group_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="样地木根树"
+                        android:textColor="@color/item_group_title"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:id="@+id/ydgs_control"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:background="@drawable/cart_num_style"
+                        android:orientation="horizontal"
+                        android:paddingLeft="3dp"
+                        android:paddingTop="2dp"
+                        android:paddingRight="3dp"
+                        android:paddingBottom="2dp">
+
+                        <Button
+                            android:id="@+id/jian_num"
+                            android:layout_width="26dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="2dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:text="-" />
+
+                        <View
+                            android:layout_width="0.5sp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorGrayan" />
+
+                        <Button
+                            android:id="@+id/ydmnum"
+                            android:layout_width="28dp"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="0.5sp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorGrayan" />
+
+                        <Button
+                            android:id="@+id/add_num"
+                            android:layout_width="26dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="2dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:text="+" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/item_group_divider" />
+            </LinearLayout>
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_bzdmj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请输入样地木根数"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="标准地面积" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_gps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="GPS坐标"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="GPS坐标" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_person"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请选择调查人员"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="调查人员" />
+
+            <com.zx.itemgroup.widget.ItemGroup
+                android:id="@+id/ig_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:edt_hint_content="请选择调查日期"
+                app:jt_visible="false"
+                app:paddingLeft="15dp"
+                app:title="调查日期" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp">
+
+                    <TextView
+                        android:id="@+id/title_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/item_group_title"
+                        android:textSize="15sp"
+                        tools:text="其他情况记载" />
+
+                    <EditText
+                        android:id="@+id/content_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:layout_marginTop="10dp"
+                        android:gravity="top"
+                        android:hint="其他情况记载"
+                        android:maxLines="10"
+                        android:minLines="8"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/item_group_edt"
+                        android:textSize="13sp" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/item_group_divider" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/dialog_btn_bg"
+                android:clickable="true"
+                android:text="保存"
+                android:textColor="#fff" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
