@@ -7,44 +7,37 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.bumptech.glide.Glide;
 import com.zhangqie.shoppingcart.R;
 import com.zhangqie.shoppingcart.callback.OnClickAddCloseListenter;
 import com.zhangqie.shoppingcart.callback.OnClickDeleteListenter;
 import com.zhangqie.shoppingcart.callback.OnClickListenterModel;
 import com.zhangqie.shoppingcart.callback.OnViewItemClickListener;
-import com.zhangqie.shoppingcart.entity.CartInfo;
+import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.widget.FrontViewToMove;
 import com.zhangqie.shoppingcart.widget.ZQRoundOvalImageView;
 
-import java.util.List;
-
-/**
- * Created by zhangqie on 2016/11/26.
- */
-
-public class CartExpandAdapter extends BaseExpandableListAdapter {
+public class TreeExpandAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private ListView listView;
-    private List<CartInfo.DataBean> list;
+    public SheetHeader sheet;
 
-    public CartExpandAdapter(Context context, ListView listView, List<CartInfo.DataBean> list) {
+    public TreeExpandAdapter(Context context, ListView listView, SheetHeader sheet) {
         super();
         this.context = context;
         this.listView = listView;
-        this.list = list;
+        this.sheet = sheet;
     }
 
     @Override
     public Object getChild(int arg0, int arg1) {
         // TODO Auto-generated method stub
-        return list.get(arg0).getItems().get(arg1);
+        return sheet.getAllData().size();
     }
 
     @Override
@@ -56,17 +49,17 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(final int groupPosition, final int position,
                              boolean arg2, View convertView, ViewGroup parent) {
-        final ViewHolder1 viewHolder1;
+        final TreeExpandAdapter.ViewHolder1 viewHolder1;
         convertView = LayoutInflater.from(context).inflate(R.layout.cart_list_child_item, null);
-        viewHolder1 = new ViewHolder1(convertView, groupPosition, position);
+        viewHolder1 = new TreeExpandAdapter.ViewHolder1(convertView, groupPosition, position);
 
         //关键语句，使用自己写的类来对frontView的ontouch事件复写，实现视图滑动效果
         new FrontViewToMove(viewHolder1.frontView, listView, 480);
 //        viewHolder1.textView.setText(list.get(groupPosition).getItems().get(position).getTitle());
-        viewHolder1.textView.setText("径阶 " + (position + 1));
-        viewHolder1.checkBox.setChecked(list.get(groupPosition).getItems().get(position).ischeck());
+        viewHolder1.textView.setText("径阶 " + sheet.getAllData().get(position).getJinJie());
+//        viewHolder1.checkBox.setChecked(list.get(groupPosition).getItems().get(position).ischeck());
 //        viewHolder1.tvMoney.setText("¥ " + list.get(groupPosition).getItems().get(position).getPrice());
-        viewHolder1.btnNum.setText(list.get(groupPosition).getItems().get(position).getNum() + "");
+        viewHolder1.btnNum.setText("" + sheet.getAllData().get(position).getNum());
         viewHolder1.zqRoundOvalImageView.setType(ZQRoundOvalImageView.TYPE_ROUND);
         viewHolder1.zqRoundOvalImageView.setRoundRadius(8);
 
@@ -74,17 +67,21 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
                 .placeholder(R.mipmap.wood)
                 .error(R.mipmap.wood).into(viewHolder1.zqRoundOvalImageView);*/
 
+        viewHolder1.checkBox.setVisibility(View.GONE);
         viewHolder1.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListenterModel.onItemClick(viewHolder1.checkBox.isChecked(), v, groupPosition, position);
+                if (null != onClickListenterModel)
+                    onClickListenterModel.onItemClick(viewHolder1.checkBox.isChecked(), v, groupPosition, position);
             }
         });
         viewHolder1.button.setOnClickListener(new View.OnClickListener() {
             // 为button绑定事件，可以用此按钮来实现删除事件
             @Override
             public void onClick(View v) {
-                onClickDeleteListenter.onItemClick(v, groupPosition, position);
+               /* if (null != onClickDeleteListenter)
+                    onClickDeleteListenter.onItemClick(v, groupPosition, position);*/
+                viewHolder1.changeTagText();
                 new FrontViewToMove(viewHolder1.frontView, listView, 480).generateRevealAnimate(viewHolder1.frontView, 0);
             }
         });
@@ -94,7 +91,7 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
     class ViewHolder1 implements View.OnClickListener {
         private int groupPosition;
         private int position;
-        private TextView textView;
+        private TextView textView, item_chlid_content1, item_chlid_content2, item_chlid_content3;
         private View frontView;
         private Button button;
         private CheckBox checkBox;
@@ -103,6 +100,8 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
         private Button btnAdd;
         private Button btnNum;
         private Button btnClose;
+        private EditText width1, width2, width3, height1, height2, height3;
+
 
         public ViewHolder1(View view, int groupPosition, int position) {
             this.groupPosition = groupPosition;
@@ -117,7 +116,52 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
             btnAdd.setOnClickListener(this);
             btnNum = (Button) view.findViewById(R.id.item_chlid_num);
             btnClose = (Button) view.findViewById(R.id.item_chlid_close);
+            item_chlid_content1 = view.findViewById(R.id.item_chlid_content1);
+            item_chlid_content2 = view.findViewById(R.id.item_chlid_content2);
+            item_chlid_content3 = view.findViewById(R.id.item_chlid_content3);
+            width1 = view.findViewById(R.id.width1);
+            width2 = view.findViewById(R.id.width2);
+            width3 = view.findViewById(R.id.width3);
+            height1 = view.findViewById(R.id.height1);
+            height2 = view.findViewById(R.id.height2);
+            height3 = view.findViewById(R.id.height3);
+
+
             btnClose.setOnClickListener(this);
+        }
+
+        private void changeTagText() {
+
+            String widthStr1 = width1.getText().toString();
+            String widthStr2 = width2.getText().toString();
+            String widthStr3 = width3.getText().toString();
+
+            String heightStr1 = height1.getText().toString();
+            String heightStr2 = height2.getText().toString();
+            String heightStr3 = height3.getText().toString();
+
+
+            widthStr1="".equals(widthStr1)?"0":widthStr1;
+            widthStr2="".equals(widthStr2)?"0":widthStr2;
+            widthStr3="".equals(widthStr3)?"0":widthStr3;
+
+
+            heightStr1="".equals(widthStr3)?"0":widthStr3;
+
+
+
+
+
+            sheet.getAllData().get(position).setTestHight1(Double.parseDouble(heightStr1));
+            sheet.getAllData().get(position).setTestHight2(Double.parseDouble(heightStr2));
+            sheet.getAllData().get(position).setTestHight3(Double.parseDouble(heightStr3));
+
+            sheet.getAllData().get(position).setTestWidth1(Double.parseDouble(widthStr1));
+            sheet.getAllData().get(position).setTestWidth2(Double.parseDouble(widthStr2));
+            sheet.getAllData().get(position).setTestWidth3(Double.parseDouble(widthStr3));
+
+            TreeExpandAdapter.this.notifyDataSetChanged();
+
         }
 
         @Override
@@ -165,19 +209,19 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
     @Override
     public int getChildrenCount(int arg0) {
         // TODO Auto-generated method stub
-        return (list != null && list.size() > 0) ? list.get(arg0).getItems().size() : 0;
+        return (sheet.getAllData() != null && sheet.getAllData().size() > 0) ? sheet.getAllData().size() : 0;
     }
 
     @Override
     public Object getGroup(int arg0) {
         // TODO Auto-generated method stub
-        return list.get(arg0);
+        return sheet;
     }
 
     @Override
     public int getGroupCount() {
         // TODO Auto-generated method stub
-        return (list != null && list.size() > 0) ? list.size() : 0;
+        return 1;
     }
 
     @Override
@@ -189,26 +233,28 @@ public class CartExpandAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
+        final TreeExpandAdapter.ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.cart_list_group_item, null);
-            viewHolder = new ViewHolder(convertView);
+            viewHolder = new TreeExpandAdapter.ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (TreeExpandAdapter.ViewHolder) convertView.getTag();
         }
         if (groupPosition == 0) {
             viewHolder.textTopBar.setVisibility(View.GONE);
         }
-        CartInfo.DataBean dataBean = (CartInfo.DataBean) getGroup(groupPosition);
-        viewHolder.textView.setText(dataBean.getShop_name());
-        viewHolder.checkBox.setChecked(dataBean.ischeck());
+//        CartInfo.DataBean dataBean = (CartInfo.DataBean) getGroup(groupPosition);
+        String title = String.format("样带编号:%s GPS:%s", sheet.getSheetNo(), sheet.getGps());
+        viewHolder.textView.setText(title);
+       /* viewHolder.checkBox.setChecked(dataBean.ischeck());
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOnItemClickListener.onItemClick(viewHolder.checkBox.isChecked(), v, groupPosition);
             }
-        });
+        });*/
+        viewHolder.checkBox.setVisibility(View.GONE);
         viewHolder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

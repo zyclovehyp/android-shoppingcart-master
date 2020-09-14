@@ -16,14 +16,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_ydno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +33,7 @@
                 app:paddingLeft="15dp"
                 app:title="样带编号" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_fczlb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,7 +42,7 @@
                 app:paddingLeft="15dp"
                 app:title="分场(造林部)" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_sz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +51,7 @@
                 app:paddingLeft="15dp"
                 app:title="树种" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_qy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +60,7 @@
                 app:paddingLeft="15dp"
                 app:title="起源" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_cfdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +70,7 @@
                 app:title="采伐地点" />
 
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_lban"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +79,7 @@
                 app:paddingLeft="15dp"
                 app:title="林班" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_xban"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +88,7 @@
                 app:paddingLeft="15dp"
                 app:title="小班" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_zlnd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -96,7 +97,7 @@
                 app:paddingLeft="15dp"
                 app:title="造林年度" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_ybd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -190,7 +191,7 @@
                     android:background="@color/item_group_divider" />
             </LinearLayout>
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_bzdmj"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -199,7 +200,7 @@
                 app:paddingLeft="15dp"
                 app:title="标准地面积" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_gps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -208,7 +209,7 @@
                 app:paddingLeft="15dp"
                 app:title="GPS坐标" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -217,7 +218,7 @@
                 app:paddingLeft="15dp"
                 app:title="调查人员" />
 
-            <com.zx.itemgroup.widget.ItemGroup
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -246,7 +247,7 @@
                         android:layout_centerVertical="true"
                         android:textColor="@color/item_group_title"
                         android:textSize="15sp"
-                        tools:text="其他情况记载" />
+                        android:text="其他情况记载" />
 
                     <EditText
                         android:id="@+id/content_edt"

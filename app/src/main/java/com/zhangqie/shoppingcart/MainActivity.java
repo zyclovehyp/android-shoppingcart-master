@@ -1,6 +1,7 @@
 package com.zhangqie.shoppingcart;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -13,19 +14,19 @@ import com.alibaba.fastjson.JSON;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.zhangqie.shoppingcart.adapter.CartExpandAdapter;
+import com.zhangqie.shoppingcart.adapter.TreeExpandAdapter;
 import com.zhangqie.shoppingcart.callback.OnClickAddCloseListenter;
 import com.zhangqie.shoppingcart.callback.OnClickDeleteListenter;
 import com.zhangqie.shoppingcart.callback.OnClickListenterModel;
 import com.zhangqie.shoppingcart.callback.OnViewItemClickListener;
 import com.zhangqie.shoppingcart.entity.CartInfo;
+import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.util.DataList;
-import com.zhangqie.shoppingcart.widget.MDrawerLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.nv_titleBar)
     TitleBar nv_titleBar;
     CartInfo cartInfo;
-    CartExpandAdapter cartExpandAdapter;
+    //    CartExpandAdapter cartExpandAdapter;
+    TreeExpandAdapter treeExpandAdapter;
     @Bind(R.id.drawer_layout)
-    MDrawerLayout drawerLayout;
+    DrawerLayout drawerLayout;
     double price;
     int num;
+    SheetHeader sheet = new SheetHeader();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +91,21 @@ public class MainActivity extends AppCompatActivity {
 
     private int getDrawerGravity() {
 
-        return Gravity.RIGHT;
+        return Gravity.START;
     }
 
     private void showData() {
         cartInfo = JSON.parseObject(DataList.JSONDATA(), CartInfo.class);
+
+
+        sheet.setAllData(DataList.build(1, DataList.danJin()));
+
+        if (sheet != null && sheet.getAllData().size() > 0) {
+            treeExpandAdapter = null;
+            showExpandData();
+        }
+        /*
+
         if (cartInfo != null && cartInfo.getData().size() > 0) {
             cartExpandAdapter = null;
             showExpandData();
@@ -102,19 +115,46 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 return;
             }
-        }
+        }*/
     }
 
     private void showExpandData() {
+        treeExpandAdapter = new TreeExpandAdapter(this, cartExpandablelistview, sheet);
+
+        cartExpandablelistview.setAdapter(treeExpandAdapter);
+
+        cartExpandablelistview.expandGroup(0);
+        treeExpandAdapter.setOnClickAddCloseListenter(new OnClickAddCloseListenter() {
+            @Override
+            public void onItemClick(View view, int index, int onePosition, int position, int num) {
+                if (index == 1) {
+                    if (num >= 1) {
+                        sheet.getAllData().get(position).setNum((num - 1));
+//                        cartInfo.getData().get(onePosition).getItems().get(position).setNum((num - 1));
+                        treeExpandAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    sheet.getAllData().get(position).setNum((num + 1));
+
+//                    cartInfo.getData().get(onePosition).getItems().get(position).setNum((num + 1));
+                    treeExpandAdapter.notifyDataSetChanged();
+                }
+                showCommodityCalculation();
+            }
+        });
+        showCommodityCalculation();
+    }
+
+    /*private void showExpandData() {
         cartExpandAdapter = new CartExpandAdapter(this, cartExpandablelistview, cartInfo.getData());
         cartExpandablelistview.setAdapter(cartExpandAdapter);
         int intgroupCount = cartExpandablelistview.getCount();
         for (int i = 0; i < intgroupCount; i++) {
             cartExpandablelistview.expandGroup(i);
         }
-        /**
-         * 全选
-         */
+        *//**
+     * 全选
+     *//*
         cartExpandAdapter.setOnItemClickListener(new OnViewItemClickListener() {
             @Override
             public void onItemClick(boolean isFlang, View view, int position) {
@@ -128,9 +168,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * 单选
-         */
+        *//**
+     * 单选
+     *//*
         cartExpandAdapter.setOnClickListenterModel(new OnClickListenterModel() {
             @Override
             public void onItemClick(boolean isFlang, View view, int onePosition, int position) {
@@ -163,9 +203,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /***
-         * 数量增加和减少
-         */
+        */
+
+    /***
+     * 数量增加和减少
+     *//*
         cartExpandAdapter.setOnClickAddCloseListenter(new OnClickAddCloseListenter() {
             @Override
             public void onItemClick(View view, int index, int onePosition, int position, int num) {
@@ -183,9 +225,9 @@ public class MainActivity extends AppCompatActivity {
         });
         showCommodityCalculation();
     }
-
+*/
     private void showCommodityCalculation() {
-        price = 0;
+        /*price = 0;
         num = 0;
         for (int i = 0; i < cartInfo.getData().size(); i++) {
             for (int j = 0; j < cartInfo.getData().get(i).getItems().size(); j++) {
@@ -210,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
             cartMoney.setText("¥ " + money.substring(0, (money.indexOf(".") + 2)));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @OnClick(R.id.cart_shopp_moular)
@@ -233,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 String num = ydmnum.getText().toString();
                 int n = Integer.parseInt(num);
                 n = n - 1;
-                if(n<=0){
+                if (n <= 0) {
                     return;
                 }
                 changeNum(n);
