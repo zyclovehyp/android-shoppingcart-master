@@ -146,7 +146,9 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
             widthStr3="".equals(widthStr3)?"0":widthStr3;
 
 
-            heightStr1="".equals(widthStr3)?"0":widthStr3;
+            heightStr1="".equals(heightStr1)?"0":heightStr1;
+            heightStr2="".equals(heightStr2)?"0":heightStr2;
+            heightStr3="".equals(heightStr3)?"0":heightStr3;
 
 
 
