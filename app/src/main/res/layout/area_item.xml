@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_bg"
+    android:orientation="vertical">
+    <com.hjq.bar.TitleBar
+        android:id="@+id/nv_titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="样带面积计算表"
+        app:backButton="false"
+        />
+    <com.zhangqie.shoppingcart.widget.ItemGroup
+        android:id="@+id/ig_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="请输入样带长m"
+        app:jt_visible="false"
+        app:paddingLeft="15dp"
+        app:title="样带长m" />
+
+    <com.zhangqie.shoppingcart.widget.ItemGroup
+        android:id="@+id/ig_width"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="请输入样带宽m"
+        app:jt_visible="false"
+        app:paddingLeft="15dp"
+        app:title="样带宽m" />
+
+    <com.zhangqie.shoppingcart.widget.ItemGroup
+        android:id="@+id/ig_p"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="请输入坡度°"
+        app:jt_visible="false"
+        app:paddingLeft="15dp"
+        app:title="坡度°" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/dialog_btn_bg"
+        android:clickable="true"
+        android:text="保存"
+        android:textColor="#fff" />
+</LinearLayout>

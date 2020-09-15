@@ -12,8 +12,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".AddPageActivity">
+<!--        <activity android:name=".AddPageActivity"></activity>-->
+        <activity android:name=".MainActivity" />
+        <activity android:name=".AreaMemActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

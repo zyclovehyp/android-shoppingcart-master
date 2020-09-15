@@ -9,7 +9,6 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:backButton="false"
         app:rightBackground="@mipmap/wood"
         app:rightIcon="@mipmap/wood"
         app:title="标准地调查记录表" />

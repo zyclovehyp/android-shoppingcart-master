@@ -14,4 +14,6 @@
     <color name="item_group_edt">#666666</color>
     <color name="item_group_divider">#eeeeee</color>
     <color name="arc1">#099bfb</color>
+
+    <color name="transparent">#00000000</color>
 </resources>
