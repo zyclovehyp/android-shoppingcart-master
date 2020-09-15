@@ -35,20 +35,21 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/cart_num"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="共0件商品"
+            android:text="共0株"
             android:textColor="#000000"
-            android:textSize="14dp" />
+            android:textSize="14dp" />-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
+            android:layout_weight="1"
+            android:gravity="right"
             android:text="合计："
             android:textColor="#000000"
             android:textSize="14dp" />
@@ -68,7 +69,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:background="@color/colorOrder"
-            android:text="提交订单"
+            android:text="提交数据"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

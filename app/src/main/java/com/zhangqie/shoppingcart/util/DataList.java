@@ -78,6 +78,7 @@ public class DataList {
 
         for (int i = 0; i < arr.length; i++) {
             TreeModel treeModel = new TreeModel();
+            treeModel.setId(-1);
             treeModel.setJinJie(arr[i]);
             treeModel.setSheetId(headerId);
             all.add(treeModel);

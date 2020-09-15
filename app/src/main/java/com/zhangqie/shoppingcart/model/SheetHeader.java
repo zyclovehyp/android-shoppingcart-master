@@ -1,8 +1,10 @@
 package com.zhangqie.shoppingcart.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SheetHeader {
+public class SheetHeader implements Serializable {
+
 
     private int sheetId;
 
@@ -39,7 +41,30 @@ public class SheetHeader {
     /*GPS*/
     private String gps;
 
+    private String date;
+
+    private String type;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     private List<TreeModel> allData;
+
+    private boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
 
     public int getSheetId() {
         return sheetId;
@@ -141,7 +166,36 @@ public class SheetHeader {
         return allData;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
     public void setAllData(List<TreeModel> allData) {
         this.allData = allData;
     }
+
+    public static String createTable() {
+        return "create table sheet_header (" +
+                "sheet_id integer primary key autoincrement" +
+                ", sheet_no text" +
+                ", fc_zlb text" +
+                ", treeType text" +
+                ", address text" +
+                ", sourceAddress" +
+                ", classType text" +
+                ", smallType text" +
+                ", buildYear text" +
+                ", ybd text" +
+                ", mianJi text" +
+                ", date text" +
+                ", gps text,type text)";
+    }
+
+    public static final String TABLE_NAME = "sheet_header";
+
 }

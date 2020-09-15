@@ -34,4 +34,5 @@ dependencies {
     implementation 'com.hjq:titlebar:5.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/nineoldandroids-2.4.0.jar')
+    compile files('libs/jxl.jar')
 }

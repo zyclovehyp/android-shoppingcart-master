@@ -17,7 +17,9 @@ import com.zhangqie.shoppingcart.callback.OnClickAddCloseListenter;
 import com.zhangqie.shoppingcart.callback.OnClickDeleteListenter;
 import com.zhangqie.shoppingcart.callback.OnClickListenterModel;
 import com.zhangqie.shoppingcart.callback.OnViewItemClickListener;
+import com.zhangqie.shoppingcart.dao.TreeDao;
 import com.zhangqie.shoppingcart.model.SheetHeader;
+import com.zhangqie.shoppingcart.model.TreeModel;
 import com.zhangqie.shoppingcart.widget.FrontViewToMove;
 import com.zhangqie.shoppingcart.widget.ZQRoundOvalImageView;
 
@@ -27,8 +29,11 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
     private ListView listView;
     public SheetHeader sheet;
 
+    TreeDao treeDao;
+
     public TreeExpandAdapter(Context context, ListView listView, SheetHeader sheet) {
         super();
+        treeDao = new TreeDao();
         this.context = context;
         this.listView = listView;
         this.sheet = sheet;
@@ -53,36 +58,31 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
         convertView = LayoutInflater.from(context).inflate(R.layout.cart_list_child_item, null);
         viewHolder1 = new TreeExpandAdapter.ViewHolder1(convertView, groupPosition, position);
 
+
         //关键语句，使用自己写的类来对frontView的ontouch事件复写，实现视图滑动效果
-        new FrontViewToMove(viewHolder1.frontView, listView, 480);
-//        viewHolder1.textView.setText(list.get(groupPosition).getItems().get(position).getTitle());
+
+
         viewHolder1.textView.setText("径阶 " + sheet.getAllData().get(position).getJinJie());
-//        viewHolder1.checkBox.setChecked(list.get(groupPosition).getItems().get(position).ischeck());
-//        viewHolder1.tvMoney.setText("¥ " + list.get(groupPosition).getItems().get(position).getPrice());
         viewHolder1.btnNum.setText("" + sheet.getAllData().get(position).getNum());
         viewHolder1.zqRoundOvalImageView.setType(ZQRoundOvalImageView.TYPE_ROUND);
         viewHolder1.zqRoundOvalImageView.setRoundRadius(8);
+        viewHolder1.item_chlid_content1.setText(
+                String.format("%s ：%s", sheet.getAllData().get(position).getTestWidth1()
+                        , sheet.getAllData().get(position).getTestHight1()));
 
-        /*Glide.with(context).load(list.get(groupPosition).getItems().get(position).getImage())
-                .placeholder(R.mipmap.wood)
-                .error(R.mipmap.wood).into(viewHolder1.zqRoundOvalImageView);*/
+        viewHolder1.item_chlid_content2.setText(
+                String.format("%s ：%s", sheet.getAllData().get(position).getTestWidth2()
+                        , sheet.getAllData().get(position).getTestHight2()));
 
+        viewHolder1.item_chlid_content3.setText(
+                String.format("%s ：%s", sheet.getAllData().get(position).getTestWidth3()
+                        , sheet.getAllData().get(position).getTestHight3()));
         viewHolder1.checkBox.setVisibility(View.GONE);
         viewHolder1.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != onClickListenterModel)
                     onClickListenterModel.onItemClick(viewHolder1.checkBox.isChecked(), v, groupPosition, position);
-            }
-        });
-        viewHolder1.button.setOnClickListener(new View.OnClickListener() {
-            // 为button绑定事件，可以用此按钮来实现删除事件
-            @Override
-            public void onClick(View v) {
-               /* if (null != onClickDeleteListenter)
-                    onClickDeleteListenter.onItemClick(v, groupPosition, position);*/
-                viewHolder1.changeTagText();
-                new FrontViewToMove(viewHolder1.frontView, listView, 480).generateRevealAnimate(viewHolder1.frontView, 0);
             }
         });
         return convertView;
@@ -101,6 +101,7 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
         private Button btnNum;
         private Button btnClose;
         private EditText width1, width2, width3, height1, height2, height3;
+        private FrontViewToMove frontViewToMove;
 
 
         public ViewHolder1(View view, int groupPosition, int position) {
@@ -125,9 +126,14 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
             height1 = view.findViewById(R.id.height1);
             height2 = view.findViewById(R.id.height2);
             height3 = view.findViewById(R.id.height3);
-
-
+            frontViewToMove = new FrontViewToMove(frontView, listView, 200, sheet.getAllData().get(position));
+            if (sheet.getAllData().get(position).isHasMoved()) {
+                frontViewToMove.setDownX(sheet.getAllData().get(position).getDownX());
+                frontViewToMove.setHasMoved(sheet.getAllData().get(position).isHasMoved());
+                frontViewToMove.generateRevealAnimate(frontView, -200);
+            }
             btnClose.setOnClickListener(this);
+            button.setOnClickListener(this);
         }
 
         private void changeTagText() {
@@ -141,26 +147,23 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
             String heightStr3 = height3.getText().toString();
 
 
-            widthStr1="".equals(widthStr1)?"0":widthStr1;
-            widthStr2="".equals(widthStr2)?"0":widthStr2;
-            widthStr3="".equals(widthStr3)?"0":widthStr3;
+            widthStr1 = "".equals(widthStr1) ? "0" : widthStr1;
+            widthStr2 = "".equals(widthStr2) ? "0" : widthStr2;
+            widthStr3 = "".equals(widthStr3) ? "0" : widthStr3;
 
 
-            heightStr1="".equals(heightStr1)?"0":heightStr1;
-            heightStr2="".equals(heightStr2)?"0":heightStr2;
-            heightStr3="".equals(heightStr3)?"0":heightStr3;
+            heightStr1 = "".equals(heightStr1) ? "0" : heightStr1;
+            heightStr2 = "".equals(heightStr2) ? "0" : heightStr2;
+            heightStr3 = "".equals(heightStr3) ? "0" : heightStr3;
 
 
+            sheet.getAllData().get(position).setTestHight1(heightStr1);
+            sheet.getAllData().get(position).setTestHight2(heightStr2);
+            sheet.getAllData().get(position).setTestHight3(heightStr3);
 
-
-
-            sheet.getAllData().get(position).setTestHight1(Double.parseDouble(heightStr1));
-            sheet.getAllData().get(position).setTestHight2(Double.parseDouble(heightStr2));
-            sheet.getAllData().get(position).setTestHight3(Double.parseDouble(heightStr3));
-
-            sheet.getAllData().get(position).setTestWidth1(Double.parseDouble(widthStr1));
-            sheet.getAllData().get(position).setTestWidth2(Double.parseDouble(widthStr2));
-            sheet.getAllData().get(position).setTestWidth3(Double.parseDouble(widthStr3));
+            sheet.getAllData().get(position).setTestWidth1(widthStr1);
+            sheet.getAllData().get(position).setTestWidth2(widthStr2);
+            sheet.getAllData().get(position).setTestWidth3(widthStr3);
 
             TreeExpandAdapter.this.notifyDataSetChanged();
 
@@ -174,6 +177,13 @@ public class TreeExpandAdapter extends BaseExpandableListAdapter {
                     break;
                 case R.id.item_chlid_close:
                     onClickAddCloseListenter.onItemClick(v, 1, groupPosition, position, Integer.valueOf(btnNum.getText().toString()));
+                    break;
+                case R.id.btn_delete:
+                    changeTagText();
+                    frontViewToMove.generateRevealAnimate(frontView, 0);
+                    sheet.getAllData().get(position).setDownX(frontViewToMove.getDownX());
+                    sheet.getAllData().get(position).setHasMoved(false);
+                    treeDao.save(sheet.getAllData().get(position));
                     break;
             }
         }

@@ -10,18 +10,16 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
-import com.zhangqie.shoppingcart.adapter.CartExpandAdapter;
 import com.zhangqie.shoppingcart.adapter.TreeExpandAdapter;
 import com.zhangqie.shoppingcart.callback.OnClickAddCloseListenter;
-import com.zhangqie.shoppingcart.callback.OnClickDeleteListenter;
-import com.zhangqie.shoppingcart.callback.OnClickListenterModel;
-import com.zhangqie.shoppingcart.callback.OnViewItemClickListener;
-import com.zhangqie.shoppingcart.entity.CartInfo;
+import com.zhangqie.shoppingcart.dao.TreeDao;
 import com.zhangqie.shoppingcart.model.SheetHeader;
+import com.zhangqie.shoppingcart.model.TreeModel;
 import com.zhangqie.shoppingcart.util.DataList;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.cart_expandablelistview)
     ExpandableListView cartExpandablelistview;
-    @Bind(R.id.cart_num)
-    TextView cartNum;
     @Bind(R.id.cart_money)
     TextView cartMoney;
     @Bind(R.id.cart_shopp_moular)
@@ -43,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
     TitleBar titleBar;
     @Bind(R.id.nv_titleBar)
     TitleBar nv_titleBar;
-    CartInfo cartInfo;
-    //    CartExpandAdapter cartExpandAdapter;
     TreeExpandAdapter treeExpandAdapter;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+
+    TreeDao treeDao;
     double price;
     int num;
     SheetHeader sheet = new SheetHeader();
@@ -55,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.cart_fragmentn_layout);
         setContentView(R.layout.draw_edit_page);
+        sheet = (SheetHeader) getIntent().getSerializableExtra("header");
+        treeDao = new TreeDao();
         ButterKnife.bind(this);
         initView();
     }
@@ -94,28 +91,33 @@ public class MainActivity extends AppCompatActivity {
         return Gravity.START;
     }
 
+    private void setAllData() {
+        List<TreeModel> all = treeDao.list(sheet.getSheetId() + "");
+
+        if (all.size() <= 0) {
+            all = DataList.build(sheet.getSheetId(),
+                    "0".equals(sheet.getType()) ? DataList.danJin() : DataList.doubleJin());
+
+        }
+        sheet.setAllData(all);
+        saveAll();
+    }
+
+    private void saveAll() {
+
+        for (int i = 0; i < sheet.getAllData().size(); i++) {
+            treeDao.save(sheet.getAllData().get(i));
+        }
+    }
+
     private void showData() {
-        cartInfo = JSON.parseObject(DataList.JSONDATA(), CartInfo.class);
 
-
-        sheet.setAllData(DataList.build(1, DataList.danJin()));
+        setAllData();
 
         if (sheet != null && sheet.getAllData().size() > 0) {
             treeExpandAdapter = null;
             showExpandData();
         }
-        /*
-
-        if (cartInfo != null && cartInfo.getData().size() > 0) {
-            cartExpandAdapter = null;
-            showExpandData();
-        } else {
-            try {
-                cartExpandAdapter.notifyDataSetChanged();
-            } catch (Exception e) {
-                return;
-            }
-        }*/
     }
 
     private void showExpandData() {
@@ -129,14 +131,15 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(View view, int index, int onePosition, int position, int num) {
                 if (index == 1) {
                     if (num >= 1) {
-                        sheet.getAllData().get(position).setNum((num - 1));
-//                        cartInfo.getData().get(onePosition).getItems().get(position).setNum((num - 1));
+                        TreeModel treeModel = sheet.getAllData().get(position);
+                        treeModel.setNum((num - 1));
+                        treeDao.save(treeModel);
                         treeExpandAdapter.notifyDataSetChanged();
                     }
                 } else {
-                    sheet.getAllData().get(position).setNum((num + 1));
-
-//                    cartInfo.getData().get(onePosition).getItems().get(position).setNum((num + 1));
+                    TreeModel treeModel = sheet.getAllData().get(position);
+                    treeModel.setNum((num + 1));
+                    treeDao.save(treeModel);
                     treeExpandAdapter.notifyDataSetChanged();
                 }
                 showCommodityCalculation();
@@ -253,11 +256,25 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+        try {
+            String money = String.valueOf(price);
+            num = 0;
+            for (int i = 0; i < sheet.getAllData().size(); i++) {
+                TreeModel treeModel = sheet.getAllData().get(i);
+
+                num += treeModel.getNum();
+            }
+            cartMoney.setText("" + num + "株");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @OnClick(R.id.cart_shopp_moular)
     public void onClick() {
-        Toast.makeText(MainActivity.this, "提交订单:  " + cartMoney.getText().toString() + "元", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "提交数据:  " + cartMoney.getText().toString() + "元", Toast.LENGTH_LONG).show();
     }
 
 

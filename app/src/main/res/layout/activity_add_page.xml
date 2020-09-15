@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
+    android:id="@+id/sheet_page"
     tools:context=".AddPageActivity">
 
     <com.hjq.bar.TitleBar
@@ -32,7 +33,47 @@
                 app:jt_visible="false"
                 app:paddingLeft="15dp"
                 app:title="样带编号" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="15dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="径阶类型"
+                        android:textColor="@color/item_group_title"
+                        android:textSize="15sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:showText="true"
+                        android:textOff="单径"
+                        android:textOn="双径"
+                        android:id="@+id/sheet_type"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/item_group_divider" />
+            </LinearLayout>
             <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_fczlb"
                 android:layout_width="match_parent"
@@ -250,7 +291,7 @@
                         android:text="其他情况记载" />
 
                     <EditText
-                        android:id="@+id/content_edt"
+                        android:id="@+id/other_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -273,7 +314,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/update"
+                android:id="@+id/save_btn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGrayan"
+        android:orientation="vertical">
+
+        <com.hjq.bar.TitleBar
+            android:id="@+id/nv_titleBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="标准地调查记录" />
+
+
+        <ListView
+            android:id="@+id/mSheetList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="合计："
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/cart_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥ 0.0"
+                android:textColor="@color/colorOrder"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/export_excel"
+                android:layout_width="119dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorOrder"
+                android:text="导出数据"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+
+        <include
+            layout="@layout/activity_add_page"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>
