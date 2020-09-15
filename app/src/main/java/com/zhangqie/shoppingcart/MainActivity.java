@@ -48,11 +48,24 @@ public class MainActivity extends AppCompatActivity {
     int num;
     SheetHeader sheet = new SheetHeader();
 
+    SheetHeaderViewHolder viewHolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.draw_edit_page);
         sheet = (SheetHeader) getIntent().getSerializableExtra("header");
+        viewHolder = new SheetHeaderViewHolder(this, sheet, findViewById(R.id.sheet_page));
+        viewHolder.setView(sheet);
+        viewHolder.setSaveListener(new SheetHeaderViewHolder.OnSaveListener() {
+            @Override
+            public void onSave(int id) {
+                if (drawerLayout.isDrawerOpen(getDrawerGravity())) {
+                    drawerLayout.closeDrawer(getDrawerGravity());
+                }
+                Toast.makeText(MainActivity.this, "保存成功！", Toast.LENGTH_LONG).show();
+            }
+        });
         treeDao = new TreeDao();
         ButterKnife.bind(this);
         initView();
@@ -274,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.cart_shopp_moular)
     public void onClick() {
-        Toast.makeText(MainActivity.this, "提交数据:  " + cartMoney.getText().toString() + "元", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "提交数据:  " + cartMoney.getText().toString(), Toast.LENGTH_LONG).show();
     }
 
 

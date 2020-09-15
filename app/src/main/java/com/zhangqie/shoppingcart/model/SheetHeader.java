@@ -46,6 +46,10 @@ public class SheetHeader implements Serializable {
     private String type;
 
 
+    public SheetHeader() {
+        sheetId = -1;
+    }
+
     public String getType() {
         return type;
     }

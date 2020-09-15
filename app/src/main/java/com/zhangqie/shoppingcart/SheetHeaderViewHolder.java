@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+
 import com.zhangqie.shoppingcart.dao.SheetHeaderDao;
 import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.util.TimeUtils;
@@ -64,6 +65,22 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         dao = new SheetHeaderDao();
     }
 
+    public void setView(SheetHeader sheetHeader) {
+        this.sheetHeader = sheetHeader;
+        ydno.setText(sheetHeader.getSheetNo());
+        fczlb.setText(sheetHeader.getFcZLB());
+        sz.setText(sheetHeader.getTreeType());
+        qy.setText(sheetHeader.getSourceAddress());
+        cfdd.setText(sheetHeader.getAddress());
+        lban.setText(sheetHeader.getClassType());
+        xban.setText(sheetHeader.getSmallType());
+        zlnd.setText(sheetHeader.getBuildYear());
+        ybd.setText(sheetHeader.getYbd());
+        bzdmj.setText(sheetHeader.getMianJi());
+        gps.setText(sheetHeader.getGps());
+
+    }
+
     public void setSaveListener(OnSaveListener saveListener) {
         this.saveListener = saveListener;
     }
@@ -85,8 +102,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
     public void save() {
 
         ContentValues values = new ContentValues();
-
-
+        values.put("sheet_id",sheetHeader.getSheetId());
         values.put("sheet_no", ydno.getText());
         values.put("fc_zlb", fczlb.getText());
         values.put("treeType", sz.getText());
@@ -98,7 +114,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         values.put("ybd", ybd.getText());
         values.put("mianJi", bzdmj.getText());
         values.put("gps", gps.getText());
-        values.put("date",date.getText());
+        values.put("date", date.getText());
         values.put("type", type.isChecked());
         int id = dao.save(values);
 
