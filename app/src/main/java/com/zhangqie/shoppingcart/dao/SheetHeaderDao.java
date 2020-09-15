@@ -14,25 +14,30 @@ public class SheetHeaderDao {
 
     public int save(ContentValues contentValues) {
 
-        Application.db.insert(SheetHeader.TABLE_NAME, contentValues);
+        if ("".equals(contentValues.get("sheet_id")) || "-1".equals(contentValues.get("sheet_id"))) {
+            Application.db.insert(SheetHeader.TABLE_NAME, contentValues);
 
-        //select * from TABLE_NAME where rowid = last_insert_rowid() ;
+            //select * from TABLE_NAME where rowid = last_insert_rowid() ;
 
-        Cursor row = Application.db.query(SheetHeader.TABLE_NAME, "where  rowid = last_insert_rowid()");
-        while (row.moveToNext()) {
+            Cursor row = Application.db.query(SheetHeader.TABLE_NAME, "where  rowid = last_insert_rowid()");
+            while (row.moveToNext()) {
 
-            return row.getInt(row.getColumnIndex("sheet_id"));
+                return row.getInt(row.getColumnIndex("sheet_id"));
+            }
+        } else {
+            Application.db.update(SheetHeader.TABLE_NAME, contentValues, "sheet_id=?", new String[]{String.valueOf(contentValues.get("sheet_id"))});
+            return contentValues.getAsInteger("sheet_id");
         }
 
 
         return 0;
     }
 
-    public List<SheetHeader> list(){
+    public List<SheetHeader> list() {
         List<SheetHeader> list = new ArrayList<>();
-        Cursor cursor = Application.db.query(SheetHeader.TABLE_NAME,"");
+        Cursor cursor = Application.db.query(SheetHeader.TABLE_NAME, "");
 
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             SheetHeader sheetHeader = new SheetHeader();
             sheetHeader.setSheetId(cursor.getInt(cursor.getColumnIndex("sheet_id")));
             sheetHeader.setGps(cursor.getString(cursor.getColumnIndex("gps")));
