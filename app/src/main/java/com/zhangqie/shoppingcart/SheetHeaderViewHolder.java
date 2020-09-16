@@ -8,13 +8,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.zhangqie.shoppingcart.dao.SheetHeaderDao;
+import com.zhangqie.shoppingcart.model.Search;
 import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.util.TimeUtils;
 import com.zhangqie.shoppingcart.widget.ItemGroup;
+import com.zhangqie.shoppingcart.widget.MultiSelectPopupWindows;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SheetHeaderViewHolder implements View.OnClickListener {
     private static final String TAG = SheetHeaderViewHolder.class.getName();
@@ -41,6 +47,8 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
     Switch type;
 
     StartActivtiy startActivtiy;
+    List<Search> products, persons;
+    MultiSelectPopupWindows productsMultiSelectPopupWindows;
 
     public SheetHeaderViewHolder(final Context context, final SheetHeader sheetHeader
             , View view) {
@@ -89,6 +97,26 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         xban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         ybd.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
 
+        person.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        person.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(View v) {
+                buildPersons();
+                productsMultiSelectPopupWindows = new MultiSelectPopupWindows(context, v, 110, persons);
+                productsMultiSelectPopupWindows.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        Toast.makeText(context, "我消失了，你可以做点什么。", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        /*person.getContentEdt().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });*/
         bzdmj.getContentEdt().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +130,14 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
 
         this.sheetHeader = sheetHeader;
         dao = new SheetHeaderDao();
+    }
+
+    public void buildPersons() {
+        persons = new ArrayList<>();
+        persons.add(new Search("张三", false, "0"));
+        persons.add(new Search("李四", false, "1"));
+        persons.add(new Search("王五", false, "2"));
+        persons.add(new Search("李二", false, "3"));
     }
 
     public void setView(SheetHeader sheetHeader) {

@@ -16,4 +16,9 @@
     <color name="arc1">#099bfb</color>
 
     <color name="transparent" tools:ignore="MissingDefaultResource">#00000000</color>
+
+    <color name="baseBlack">#000000</color>
+
+    <color name="pull_down_bg">#F7F7F7</color>
+    <color name="pull_down_text">#EAEAEA</color>
 </resources>

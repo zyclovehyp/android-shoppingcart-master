@@ -125,7 +125,6 @@ public class ItemGroup extends FrameLayout implements View.OnClickListener {
         //向右的箭头图标是否可见，默认可见
         boolean showJtIcon = typedArray.getBoolean(R.styleable.ItemGroup_jt_visible, true);
         typedArray.recycle();
-
         //设置数据
         //设置item的内边距
         itemGroupLayout.setPadding((int) paddingLeft, (int) paddingTop, (int) paddingRight, (int) paddingBottom);
@@ -146,6 +145,10 @@ public class ItemGroup extends FrameLayout implements View.OnClickListener {
     //Item点击事件监听
     public interface ItemOnClickListener {
         void onItemClick(View v);
+    }
+
+    public ImageView getJtRightIv() {
+        return jtRightIv;
     }
 
     /**
