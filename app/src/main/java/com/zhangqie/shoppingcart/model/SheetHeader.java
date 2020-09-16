@@ -6,7 +6,7 @@ import java.util.List;
 public class SheetHeader implements Serializable {
 
 
-    private int sheetId;
+    private int sheetId = -1;
 
 
     private String sheetNo;//样带编号
@@ -45,6 +45,35 @@ public class SheetHeader implements Serializable {
 
     private String type;
 
+    private String ydmnum = "0";
+
+    private String remark;
+
+    private String person;
+
+    public String getYdmnum() {
+        return ydmnum;
+    }
+
+    public void setYdmnum(String ydmnum) {
+        this.ydmnum = ydmnum;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getPerson() {
+        return person;
+    }
+
+    public void setPerson(String person) {
+        this.person = person;
+    }
 
     public SheetHeader() {
         sheetId = -1;
@@ -183,6 +212,7 @@ public class SheetHeader implements Serializable {
         this.allData = allData;
     }
 
+
     public static String createTable() {
         return "create table sheet_header (" +
                 "sheet_id integer primary key autoincrement" +
@@ -197,7 +227,11 @@ public class SheetHeader implements Serializable {
                 ", ybd text" +
                 ", mianJi text" +
                 ", date text" +
-                ", gps text,type text)";
+                ", gps text" +
+                ", type text" +
+                ", ydmnum text" +
+                ", remark text" +
+                ", person text)";
     }
 
     public static final String TABLE_NAME = "sheet_header";

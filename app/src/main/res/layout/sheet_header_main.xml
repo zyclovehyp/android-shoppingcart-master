@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start">
+    >
 
 
     <LinearLayout
@@ -22,12 +22,19 @@
             app:title="标准地调查记录" />
 
 
-        <ListView
-            android:id="@+id/mSheetList"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/white" />
+            android:layout_weight="1">
+
+            <ListView
+                android:id="@+id/mSheetList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@color/white" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,21 +55,20 @@
                 android:textSize="14dp"
                 android:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/cart_money"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="¥ 0.0"
-                android:textColor="@color/colorOrder"
-                android:textSize="16dp"
-                android:textStyle="bold"
-                android:visibility="invisible" />
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="119dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorOrder"
+                android:text="删除数据"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/export_excel"
                 android:layout_width="119dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="2dp"
                 android:background="@color/colorOrder"
                 android:text="导出数据"
                 android:textColor="@android:color/white" />

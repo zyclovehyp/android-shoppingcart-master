@@ -1,21 +1,23 @@
 package com.zhangqie.shoppingcart.model;
 
-public class TreeModel {
+import java.io.Serializable;
+
+public class TreeModel implements Serializable {
 
     private int sheetId;
 
     private int id;
     private String jinJie;//径阶
 
-    private int num;//株数
+    private int num = 0;//株数
 
-    private String testHight1;//实测数据
-    private String testHight2;
-    private String testHight3;
+    private String testHight1 = "";//实测数据
+    private String testHight2 = "";
+    private String testHight3 = "";
 
-    private String testWidth1;
-    private String testWidth2;
-    private String testWidth3;
+    private String testWidth1 = "";
+    private String testWidth2 = "";
+    private String testWidth3 = "";
 
     private boolean hasMoved;
     private int downX;

@@ -1,14 +1,16 @@
 package com.zhangqie.shoppingcart.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class AreaModel {
+public class AreaModel implements Serializable {
 
 
-    private int id;
+    private int id = -1;
 
     private int sheetId;
 
+    private String sheetNo;
 
     /**
      * 样带长m	带宽m	坡度。	Percent/100
@@ -112,4 +114,47 @@ public class AreaModel {
 
         return area;
     }
+
+    public String getSheetNo() {
+        return sheetNo;
+    }
+
+    public void setSheetNo(String sheetNo) {
+        this.sheetNo = sheetNo;
+    }
+
+    public static String createTable() {
+
+        /**
+         * private int id;
+         *
+         *private double height;//长
+         *
+         *private double width = 10;//宽
+         *
+         *private double p;//坡度
+         *
+         *private double percent;//percent
+         *
+         *private double atan;//atan
+         *
+         *private double cos;//cos
+         *
+         *private double away;//水平距离
+         *
+         *private double area;//面积
+         */
+        return "create table area_model (" +
+                "id integer primary key autoincrement,sheet_id integer,sheet_no text" +
+                ", height text" +
+                ", width text" +
+                ", p text" +
+                ", percent text" +
+                ", atan text" +
+                ", cos text" +
+                ", away text" +
+                ", area text)";
+    }
+
+    public static final String TABLE_NAME = "area_model";
 }

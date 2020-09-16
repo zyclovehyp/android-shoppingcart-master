@@ -1,8 +1,11 @@
 package com.zhangqie.shoppingcart;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +31,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static String TAG = MainActivity.class.getName();
     @Bind(R.id.cart_expandablelistview)
     ExpandableListView cartExpandablelistview;
     @Bind(R.id.cart_money)
@@ -37,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.titleBar)
     TitleBar titleBar;
-    @Bind(R.id.nv_titleBar)
-    TitleBar nv_titleBar;
     TreeExpandAdapter treeExpandAdapter;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     TreeDao treeDao;
     double price;
     int num;
-    SheetHeader sheet = new SheetHeader();
+    SheetHeader sheet;
 
     SheetHeaderViewHolder viewHolder;
 
@@ -55,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.draw_edit_page);
         sheet = (SheetHeader) getIntent().getSerializableExtra("header");
+        initLeftView();
+        treeDao = new TreeDao();
+        ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initLeftView() {
         viewHolder = new SheetHeaderViewHolder(this, sheet, findViewById(R.id.sheet_page));
         viewHolder.setView(sheet);
         viewHolder.setSaveListener(new SheetHeaderViewHolder.OnSaveListener() {
@@ -66,15 +75,21 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "保存成功！", Toast.LENGTH_LONG).show();
             }
         });
-        treeDao = new TreeDao();
-        ButterKnife.bind(this);
-        initView();
+        viewHolder.setStartActivtiy(new SheetHeaderViewHolder.StartActivtiy() {
+            @Override
+            public void startActivity(SheetHeader sheetHeader) {
+                Intent intent = new Intent(MainActivity.this, AreaMemActivity.class);
+                intent.putExtra("header", sheetHeader);
+                startActivityForResult(intent, 2);
+            }
+        });
     }
 
     private void initView() {
         OnTitleBarListener titleBarListener = new OnTitleBarListener() {
             @Override
             public void onLeftClick(View v) {
+                finish();
                 if (drawerLayout.isDrawerOpen(getDrawerGravity())) {
                     drawerLayout.closeDrawer(getDrawerGravity());
                 }
@@ -94,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         };
         cartExpandablelistview.setGroupIndicator(null);
         titleBar.setOnTitleBarListener(titleBarListener);
-        nv_titleBar.setOnTitleBarListener(titleBarListener);
         initNvPage();
         showData();
     }
@@ -161,114 +175,8 @@ public class MainActivity extends AppCompatActivity {
         showCommodityCalculation();
     }
 
-    /*private void showExpandData() {
-        cartExpandAdapter = new CartExpandAdapter(this, cartExpandablelistview, cartInfo.getData());
-        cartExpandablelistview.setAdapter(cartExpandAdapter);
-        int intgroupCount = cartExpandablelistview.getCount();
-        for (int i = 0; i < intgroupCount; i++) {
-            cartExpandablelistview.expandGroup(i);
-        }
-        *//**
-     * 全选
-     *//*
-        cartExpandAdapter.setOnItemClickListener(new OnViewItemClickListener() {
-            @Override
-            public void onItemClick(boolean isFlang, View view, int position) {
-                cartInfo.getData().get(position).setIscheck(isFlang);
-                int length = cartInfo.getData().get(position).getItems().size();
-                for (int i = 0; i < length; i++) {
-                    cartInfo.getData().get(position).getItems().get(i).setIscheck(isFlang);
-                }
-                cartExpandAdapter.notifyDataSetChanged();
-                showCommodityCalculation();
-            }
-        });
-
-        *//**
-     * 单选
-     *//*
-        cartExpandAdapter.setOnClickListenterModel(new OnClickListenterModel() {
-            @Override
-            public void onItemClick(boolean isFlang, View view, int onePosition, int position) {
-                cartInfo.getData().get(onePosition).getItems().get(position).setIscheck(isFlang);
-                int length = cartInfo.getData().get(onePosition).getItems().size();
-                for (int i = 0; i < length; i++) {
-                    if (!cartInfo.getData().get(onePosition).getItems().get(i).ischeck()) {
-                        if (!isFlang) {
-                            cartInfo.getData().get(onePosition).setIscheck(isFlang);
-                        }
-                        cartExpandAdapter.notifyDataSetChanged();
-                        showCommodityCalculation();
-                        return;
-                    } else {
-                        if (i == (length - 1)) {
-                            cartInfo.getData().get(onePosition).setIscheck(isFlang);
-                            cartExpandAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-                showCommodityCalculation();
-            }
-        });
-        cartExpandAdapter.setOnClickDeleteListenter(new OnClickDeleteListenter() {
-            @Override
-            public void onItemClick(View view, int onePosition, int position) {
-
-                //具体代码没写， 只要删除商品，刷新数据即可
-                Toast.makeText(MainActivity.this, "删除操作", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        */
-
-    /***
-     * 数量增加和减少
-     *//*
-        cartExpandAdapter.setOnClickAddCloseListenter(new OnClickAddCloseListenter() {
-            @Override
-            public void onItemClick(View view, int index, int onePosition, int position, int num) {
-                if (index == 1) {
-                    if (num > 1) {
-                        cartInfo.getData().get(onePosition).getItems().get(position).setNum((num - 1));
-                        cartExpandAdapter.notifyDataSetChanged();
-                    }
-                } else {
-                    cartInfo.getData().get(onePosition).getItems().get(position).setNum((num + 1));
-                    cartExpandAdapter.notifyDataSetChanged();
-                }
-                showCommodityCalculation();
-            }
-        });
-        showCommodityCalculation();
-    }
-*/
     private void showCommodityCalculation() {
-        /*price = 0;
-        num = 0;
-        for (int i = 0; i < cartInfo.getData().size(); i++) {
-            for (int j = 0; j < cartInfo.getData().get(i).getItems().size(); j++) {
-                if (cartInfo.getData().get(i).getItems().get(j).ischeck()) {
-                    price += Double.valueOf((cartInfo.getData().get(i).getItems().get(j).getNum() * Double.valueOf(cartInfo.getData().get(i).getItems().get(j).getPrice())));
-                    num++;
-                }
-            }
-        }
-        if (price == 0.0) {
-            cartNum.setText("共0件商品");
-            cartMoney.setText("¥ 0.0");
-            return;
-        }
-        try {
-            String money = String.valueOf(price);
-            cartNum.setText("共" + cartInfo.getData().size() + "件商品");
-            if (money.substring(money.indexOf("."), money.length()).length() > 2) {
-                cartMoney.setText("¥ " + money.substring(0, (money.indexOf(".") + 3)));
-                return;
-            }
-            cartMoney.setText("¥ " + money.substring(0, (money.indexOf(".") + 2)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
+
         try {
             String money = String.valueOf(price);
             num = 0;
@@ -326,5 +234,22 @@ public class MainActivity extends AppCompatActivity {
         final Button ydmnum = findViewById(R.id.ydmnum);
         ydmnum.setText("" + num);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
+        if (requestCode == 2 && resultCode == 3) {
+            SheetHeader sheet = (SheetHeader) data.getSerializableExtra("result");
+            viewHolder.changeMianji(sheet.getMianJi());
+            //需要更新数据
+            try {
+                viewHolder.dao.save(sheet);
+            } catch (Exception e) {
+                Log.i(TAG, "result..: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

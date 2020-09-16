@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.zhangqie.shoppingcart.Application;
+import com.zhangqie.shoppingcart.model.AreaModel;
 import com.zhangqie.shoppingcart.model.SheetHeader;
+import com.zhangqie.shoppingcart.model.TreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,21 +14,38 @@ import java.util.List;
 public class SheetHeaderDao {
 
 
-    public int save(ContentValues contentValues) {
+    public int save(SheetHeader sheetHeader) throws Exception {
+        ContentValues values = new ContentValues();
+        values.put("sheet_id", sheetHeader.getSheetId());
+        values.put("sheet_no", sheetHeader.getSheetNo());
+        values.put("fc_zlb", sheetHeader.getFcZLB());
+        values.put("treeType", sheetHeader.getTreeType());
+        values.put("address", sheetHeader.getAddress());
+        values.put("sourceAddress", sheetHeader.getSourceAddress());
+        values.put("classType", sheetHeader.getClassType());
+        values.put("smallType", sheetHeader.getSmallType());
+        values.put("buildYear", sheetHeader.getBuildYear());
+        values.put("ybd", sheetHeader.getYbd());
+        values.put("mianJi", sheetHeader.getMianJi());
+        values.put("gps", sheetHeader.getGps());
+        values.put("date", sheetHeader.getDate());
+        values.put("type", sheetHeader.getType());
 
-        if ("".equals(contentValues.get("sheet_id")) || "-1".equals(contentValues.get("sheet_id"))) {
-            Application.db.insert(SheetHeader.TABLE_NAME, contentValues);
-
-            //select * from TABLE_NAME where rowid = last_insert_rowid() ;
+        values.put("ydmnum", sheetHeader.getYdmnum());
+        values.put("remark", sheetHeader.getRemark());
+        values.put("person", sheetHeader.getPerson());
+        if (-1 == sheetHeader.getSheetId()) {
+            values.remove("sheet_id");
+            Application.db.insert(SheetHeader.TABLE_NAME, values);
 
             Cursor row = Application.db.query(SheetHeader.TABLE_NAME, "where  rowid = last_insert_rowid()");
-            while (row.moveToNext()) {
-
-                return row.getInt(row.getColumnIndex("sheet_id"));
+            if (row.moveToNext()) {
+                sheetHeader.setSheetId(row.getInt(row.getColumnIndex("sheet_id")));
+                return sheetHeader.getSheetId();
             }
         } else {
-            Application.db.update(SheetHeader.TABLE_NAME, contentValues, "sheet_id=?", new String[]{String.valueOf(contentValues.get("sheet_id"))});
-            return contentValues.getAsInteger("sheet_id");
+            Application.db.update(SheetHeader.TABLE_NAME, values, "sheet_id=?", new String[]{String.valueOf(values.get("sheet_id"))});
+            return values.getAsInteger("sheet_id");
         }
 
 
@@ -53,12 +72,21 @@ public class SheetHeaderDao {
             sheetHeader.setMianJi(cursor.getString(cursor.getColumnIndex("mianJi")));
             sheetHeader.setDate(cursor.getString(cursor.getColumnIndex("date")));
             sheetHeader.setType(cursor.getString(cursor.getColumnIndex("type")));
+            sheetHeader.setYdmnum(cursor.getString(cursor.getColumnIndex("ydmnum")));
+            sheetHeader.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
+            sheetHeader.setPerson(cursor.getString(cursor.getColumnIndex("person")));
             list.add(sheetHeader);
         }
 
 
         return list;
 
+    }
+
+    public void delete(SheetHeader sheetHeader) {
+        Application.db.delete(SheetHeader.TABLE_NAME, "sheet_id=?", new String[]{"" + sheetHeader.getSheetId()});
+        Application.db.delete(AreaModel.TABLE_NAME, "sheet_id=?", new String[]{"" + sheetHeader.getSheetId()});
+        Application.db.delete(TreeModel.TABLE_NAME, "sheet_id=?", new String[]{"" + sheetHeader.getSheetId()});
     }
 
 

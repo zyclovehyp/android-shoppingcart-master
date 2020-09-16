@@ -68,8 +68,8 @@ public class SheetHeaderAdapter extends BaseAdapter {
         SheetHeader sheet = list.get(position);
 
 
-        String showText = String.format("%s   %s", sheet.getSheetNo()
-                 , sheet.getGps());
+        String showText = String.format("样带编号：%s  GPS：%s", sheet.getSheetNo()
+                , sheet.getGps());
         ViewHolder viewHolder = null;
 
         if (convertView == null) {
@@ -92,17 +92,15 @@ public class SheetHeaderAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (null != onViewItemClickListener)
-                    onViewItemClickListener.onItemClick(list.get(position).isCheck(), finalConvertView, position);
+                    onViewItemClickListener.onItemClick(list.get(position).isCheck(), v, position);
             }
         });
-        if (position == 0) {
-            viewHolder.item_group_topbar.setVisibility(View.GONE);
-        }
-        convertView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.item_group_topbar.setVisibility(View.GONE);
+        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != onViewItemClickListener)
-                    onViewItemClickListener.onItemClick(list.get(position).isCheck(), finalConvertView, position);
+                    onViewItemClickListener.onItemClick(list.get(position).isCheck(), v, position);
             }
         });
         return convertView;

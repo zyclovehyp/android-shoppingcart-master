@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,12 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-
 import com.zhangqie.shoppingcart.R;
 import com.zhangqie.shoppingcart.model.AreaModel;
 
@@ -67,7 +64,7 @@ public class MDialog extends Dialog {
         public Builder(Context context) {
             //这里传入自定义的style，直接影响此Dialog的显示效果。style具体实现见style.xml
             this.context = context;
-            dialog = new MDialog(context, R.style.selectDialog);
+            dialog = new MDialog(context, R.style.mDialog);
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             layout = inflater.inflate(R.layout.dialog_view, null);
             closeBtn = (ImageButton) layout.findViewById(R.id.imb_dialog_select_close);
@@ -75,6 +72,12 @@ public class MDialog extends Dialog {
             igWidth = layout.findViewById(R.id.ig_width);
             igHeight = layout.findViewById(R.id.ig_height);
             igP = layout.findViewById(R.id.ig_p);
+
+            igWidth.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
+            igHeight.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
+            igP.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             save_btn.setOnClickListener(new View.OnClickListener() {
                 @Override

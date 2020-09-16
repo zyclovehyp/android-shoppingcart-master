@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="colorPrimary">#00C858</color>
     <color name="colorPrimaryDark">#00C858</color>
     <color name="colorAccent">#FF4081</color>
@@ -15,5 +15,5 @@
     <color name="item_group_divider">#eeeeee</color>
     <color name="arc1">#099bfb</color>
 
-    <color name="transparent">#00000000</color>
+    <color name="transparent" tools:ignore="MissingDefaultResource">#00000000</color>
 </resources>

@@ -55,6 +55,10 @@ public class ItemGroup extends FrameLayout implements View.OnClickListener {
         initAttrs(context, attrs);
     }
 
+    public EditText getContentEdt() {
+        return this.contentEdt;
+    }
+
 
     //初始化View
     private void initView(Context context) {
