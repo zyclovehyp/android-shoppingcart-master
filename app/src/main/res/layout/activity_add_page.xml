@@ -66,7 +66,8 @@
                         android:layout_height="wrap_content"
                         android:showText="true"
                         android:textOff="单径"
-                        android:textOn="双径" />
+                        android:textOn="双径"
+                        />
 
                 </LinearLayout>
 
@@ -100,8 +101,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="请选择起源"
-                app:jt_visible="true"
                 app:isEditable="false"
+                app:jt_visible="true"
                 app:paddingLeft="15dp"
                 app:title="起源" />
 
@@ -138,8 +139,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="请输入造林年度"
-                app:jt_visible="true"
                 app:isEditable="false"
+                app:jt_visible="true"
                 app:paddingLeft="15dp"
                 app:title="造林年度" />
 
@@ -242,8 +243,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="请录入标准地面积"
-                app:jt_visible="false"
                 app:isEditable="false"
+                app:jt_visible="false"
                 app:paddingLeft="15dp"
                 app:title="标准地面积" />
 
@@ -252,19 +253,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="GPS坐标"
+                app:isEditable="false"
                 app:jt_visible="false"
                 app:paddingLeft="15dp"
-                app:isEditable="false"
                 app:title="GPS坐标" />
 
             <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_person"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:edt_hint_content="请选择调查人员"
-                app:jt_visible="true"
-                app:isEditable="false"
                 app:drawable_right="@mipmap/country_selecter"
+                app:edt_hint_content="请选择调查人员"
+                app:isEditable="false"
+                app:jt_visible="true"
                 app:paddingLeft="15dp"
                 app:title="调查人员" />
 

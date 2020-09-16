@@ -1,8 +1,12 @@
 package com.zhangqie.shoppingcart;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +17,10 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
 import com.zhangqie.shoppingcart.adapter.TreeExpandAdapter;
@@ -21,6 +29,7 @@ import com.zhangqie.shoppingcart.dao.TreeDao;
 import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.model.TreeModel;
 import com.zhangqie.shoppingcart.util.DataList;
+import com.zhangqie.shoppingcart.widget.ItemGroup;
 
 import java.util.List;
 
@@ -39,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.cart_shopp_moular)
     Button cartShoppMoular;
 
+    @Bind({R.id.formTitleBar})
+    TitleBar formTitleBar;
     @Bind(R.id.titleBar)
     TitleBar titleBar;
     TreeExpandAdapter treeExpandAdapter;
@@ -51,19 +62,123 @@ public class MainActivity extends AppCompatActivity {
     SheetHeader sheet;
 
     SheetHeaderViewHolder viewHolder;
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //定位参数设置
+    private AMapLocationClientOption aMapLocationClientOption;
+    ItemGroup gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.draw_edit_page);
+        ButterKnife.bind(this);
+        gps = findViewById(R.id.ig_gps);
         sheet = (SheetHeader) getIntent().getSerializableExtra("header");
         initLeftView();
         treeDao = new TreeDao();
-        ButterKnife.bind(this);
+
         initView();
+        initMapLocation();
+
+        formTitleBar.setOnTitleBarListener(new OnTitleBarListener() {
+            @Override
+            public void onLeftClick(View v) {
+
+            }
+
+            @Override
+            public void onTitleClick(View v) {
+
+            }
+
+            @Override
+            public void onRightClick(View v) {
+                if (!reqLocationPerssion()) return;
+                String title = formTitleBar.getRightView().getText().toString();
+                if ("开始定位".equals(title)) {
+                    formTitleBar.setRightTitle("停止定位");
+                    mLocationClient.startLocation();
+                } else {
+                    formTitleBar.setRightTitle("开始定位");
+                    mLocationClient.stopLocation();
+                }
+
+            }
+        });
+    }
+
+    private boolean reqLocationPerssion() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
+            //开启定位权限,200是标识码
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    private void initMapLocation() {
+        //声明定位回调监听器
+        AMapLocationListener mLocationListener = new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    //定位成功回调信息，设置相关消息
+                    aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    aMapLocation.getLatitude();//获取经度
+                    aMapLocation.getLongitude();//获取纬度;
+                    aMapLocation.getAccuracy();//获取精度信息
+                    aMapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果
+                    aMapLocation.getCountry();//国家信息
+                    aMapLocation.getProvince();//省信息
+                    aMapLocation.getCity();//城市信息
+                    aMapLocation.getDistrict();//城区信息
+                    aMapLocation.getRoad();//街道信息
+                    aMapLocation.getCityCode();//城市编码
+                    aMapLocation.getAdCode();//地区编码
+                    gps.setText(aMapLocation.getLatitude() + "&" + aMapLocation.getAccuracy());
+                    //header_gps.setText(aMapLocation.getLatitude()+","+aMapLocation.getAccuracy());
+                } else {
+//                    Toast.makeText(AddPageActivity.this, "GPS定位失败：" + aMapLocation.getErrorInfo(), Toast.LENGTH_LONG).show();
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("Tomato", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                }
+            }
+        };
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+
+
+        //初始化定位参数
+        aMapLocationClientOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        aMapLocationClientOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        aMapLocationClientOption.setOnceLocation(false);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        aMapLocationClientOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        aMapLocationClientOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        aMapLocationClientOption.setInterval(2000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(aMapLocationClientOption);
+        //启动定位
+        // mLocationClient.startLocation();
     }
 
     private void initLeftView() {
+        formTitleBar.setTitle("修改标准地调查记录表");
         viewHolder = new SheetHeaderViewHolder(this, sheet, findViewById(R.id.sheet_page));
         viewHolder.setView(sheet);
         viewHolder.setSaveListener(new SheetHeaderViewHolder.OnSaveListener() {
