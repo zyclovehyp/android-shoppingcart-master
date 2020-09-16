@@ -81,7 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="请选择分场(造林部)"
-                app:jt_visible="false"
+                app:isEditable="false"
+                app:jt_visible="true"
                 app:paddingLeft="15dp"
                 app:title="分场(造林部)" />
 
@@ -99,7 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="请选择起源"
-                app:jt_visible="false"
+                app:jt_visible="true"
+                app:isEditable="false"
                 app:paddingLeft="15dp"
                 app:title="起源" />
 
@@ -136,7 +138,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:edt_hint_content="请输入造林年度"
-                app:jt_visible="false"
+                app:jt_visible="true"
+                app:isEditable="false"
                 app:paddingLeft="15dp"
                 app:title="造林年度" />
 

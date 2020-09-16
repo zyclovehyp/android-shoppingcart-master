@@ -2,6 +2,7 @@ package com.zhangqie.shoppingcart;
 
 import com.zhangqie.shoppingcart.dao.BizDao;
 import com.zhangqie.shoppingcart.model.AreaModel;
+import com.zhangqie.shoppingcart.model.DictModel;
 import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.model.TreeModel;
 import com.zhangqie.shoppingcart.util.DataBaseOpenHelper;
@@ -27,6 +28,7 @@ public class Application extends android.app.Application {
         all.add(SheetHeader.createTable());
         all.add(TreeModel.createTable());
         all.add(AreaModel.createTable());
+        all.add(DictModel.createTable());
         all.add("create table biz_id_table (id integer primary key autoincrement,biz_name text,currDate text,sno integer)");
 
         db = DataBaseOpenHelper.getInstance(this, "tree.db"

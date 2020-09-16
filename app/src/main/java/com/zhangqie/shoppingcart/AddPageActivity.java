@@ -126,7 +126,7 @@ public class AddPageActivity extends AppCompatActivity {
                 exportExcel(v);
             }
         });
-        delete=findViewById(R.id.delete);
+        delete = findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -277,10 +277,10 @@ public class AddPageActivity extends AppCompatActivity {
                     aMapLocation.getRoad();//街道信息
                     aMapLocation.getCityCode();//城市编码
                     aMapLocation.getAdCode();//地区编码
-                    gps.setText(aMapLocation.getLatitude() + "," + aMapLocation.getAccuracy());
+                    gps.setText(aMapLocation.getLatitude() + "&" + aMapLocation.getAccuracy());
                     //header_gps.setText(aMapLocation.getLatitude()+","+aMapLocation.getAccuracy());
                 } else {
-                    Toast.makeText(AddPageActivity.this, "GPS定位失败：" + aMapLocation.getErrorInfo(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AddPageActivity.this, "GPS定位失败：" + aMapLocation.getErrorInfo(), Toast.LENGTH_LONG).show();
                     //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
                     Log.e("Tomato", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
@@ -335,6 +335,7 @@ public class AddPageActivity extends AppCompatActivity {
                             "0".equals(sheetHeader.getType()) ? DataList.danJin() : DataList.doubleJin());
 
                 }
+                int num = 0;
                 for (int l = 0; l < all.size(); l++) {
 
                     TreeModel treeModel = all.get(l);
@@ -347,8 +348,33 @@ public class AddPageActivity extends AppCompatActivity {
                     beanList.add(treeModel.getTestHight2());
                     beanList.add(treeModel.getTestWidth3());
                     beanList.add(treeModel.getTestHight3());
+                    num += treeModel.getNum();
                     recordList.add(beanList);
                 }
+                beanList = new ArrayList<String>();
+                beanList.add("合计");
+                beanList.add(num + "");
+                beanList.add("");
+                beanList.add("");
+                beanList.add("");
+                recordList.add(beanList);
+
+                beanList = new ArrayList<String>();
+                beanList.add("其他记载情况");
+                beanList.add(sheetHeader.getRemark());
+                recordList.add(beanList);
+
+
+
+                beanList = new ArrayList<String>();
+                beanList.add("调查人员");
+                beanList.add(sheetHeader.getPerson());
+                beanList.add("分场");
+                beanList.add("");
+                beanList.add("调查日期");
+                beanList.add(sheetHeader.getDate());
+                recordList.add(beanList);
+
 
                 buildLine();
                 buildArea(sheetHeader);
@@ -422,7 +448,7 @@ public class AddPageActivity extends AppCompatActivity {
         beanList.add("GPS坐标");
         beanList.add(sheetHeader.getGps());
         beanList.add("样地木根数");
-        beanList.add(sheetHeader.getSheetNo());
+        beanList.add(sheetHeader.getYdmnum());
         beanList.add("郁闭度");
         beanList.add(sheetHeader.getYbd());
         recordList.add(beanList);

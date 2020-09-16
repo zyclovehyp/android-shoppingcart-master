@@ -125,25 +125,7 @@ public class AreaModel implements Serializable {
 
     public static String createTable() {
 
-        /**
-         * private int id;
-         *
-         *private double height;//长
-         *
-         *private double width = 10;//宽
-         *
-         *private double p;//坡度
-         *
-         *private double percent;//percent
-         *
-         *private double atan;//atan
-         *
-         *private double cos;//cos
-         *
-         *private double away;//水平距离
-         *
-         *private double area;//面积
-         */
+
         return "create table area_model (" +
                 "id integer primary key autoincrement,sheet_id integer,sheet_no text" +
                 ", height text" +

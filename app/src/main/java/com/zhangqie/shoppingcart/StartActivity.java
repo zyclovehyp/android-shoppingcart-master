@@ -1,12 +1,15 @@
 package com.zhangqie.shoppingcart;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.zhangqie.shoppingcart.dao.DictDao;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -27,6 +30,7 @@ public class StartActivity extends AppCompatActivity {
                 StartActivity.this.finish();   //关闭splashActivity，将其回收，否则按返回键会返回此界面
             }
         }, SPLASH_DISPLAY_LENGHT);
+        initData();
     }
 
     private void fullScreen() {
@@ -46,5 +50,22 @@ public class StartActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void initData() {
+        SharedPreferences sharedPreferences =
+                getSharedPreferences("init", MODE_PRIVATE);
+        boolean inited = sharedPreferences.getBoolean("inited", false);
+
+        if (!inited) {
+            DictDao dictDao = new DictDao();
+            dictDao.insertInitData();
+            SharedPreferences.Editor editor =
+                    sharedPreferences.edit();
+            editor.putBoolean("inited", true);
+            editor.commit();
+        }
+
+
     }
 }

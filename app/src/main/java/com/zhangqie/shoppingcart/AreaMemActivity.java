@@ -226,6 +226,7 @@ public class AreaMemActivity extends AppCompatActivity {
         for (AreaModel areaModel : areaModels) {
             mianji += areaModel.getArea();
         }
+        mianji = mianji / 1000;
         sheet.setMianJi(String.valueOf(mianji));
         Intent i = new Intent();
         setResult(3, i.putExtra("result", sheet));

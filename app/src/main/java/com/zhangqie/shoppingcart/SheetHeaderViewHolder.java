@@ -1,33 +1,34 @@
 package com.zhangqie.shoppingcart;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.zhangqie.shoppingcart.dao.DictDao;
 import com.zhangqie.shoppingcart.dao.SheetHeaderDao;
-import com.zhangqie.shoppingcart.model.Search;
+import com.zhangqie.shoppingcart.model.DictModel;
 import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.util.TimeUtils;
 import com.zhangqie.shoppingcart.widget.ItemGroup;
-import com.zhangqie.shoppingcart.widget.MultiSelectPopupWindows;
+import com.zyc.popwindow.bean.FiltrateBean;
+import com.zyc.popwindow.view.ScreenPopWindow;
+import com.zyc.popwindow.view.adapter.ScreenListViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SheetHeaderViewHolder implements View.OnClickListener {
     private static final String TAG = SheetHeaderViewHolder.class.getName();
-    Context context;
+    Activity context;
     SheetHeader sheetHeader;
     OnSaveListener saveListener;
     SheetHeaderDao dao;
+    DictDao dictDao;
     View content;
     ItemGroup ydno,
             fczlb,
@@ -47,12 +48,11 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
     Switch type;
 
     StartActivtiy startActivtiy;
-    List<Search> products, persons;
-    MultiSelectPopupWindows productsMultiSelectPopupWindows;
 
-    public SheetHeaderViewHolder(final Context context, final SheetHeader sheetHeader
+    public SheetHeaderViewHolder(final Activity context, final SheetHeader sheetHeader
             , View view) {
 
+        dictDao = new DictDao();
         this.context = context;
         this.content = view;
         ydno = findByID(R.id.ig_ydno);
@@ -78,7 +78,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         other_edit = findByID(R.id.other_edit);
 
         fczlb.setText("");
-        sz.setText("");
+        sz.setText("按树");
         qy.setText("");
         cfdd.setText("");
         lban.setText("");
@@ -96,21 +96,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         lban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         xban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         ybd.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        person.getJtRightIv().setImageResource(R.mipmap.country_selecter);
-        person.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
-            @Override
-            public void onItemClick(View v) {
-                buildPersons();
-                productsMultiSelectPopupWindows = new MultiSelectPopupWindows(context, v, 110, persons);
-                productsMultiSelectPopupWindows.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        Toast.makeText(context, "我消失了，你可以做点什么。", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+        initPopWindow(context);
         /*person.getContentEdt().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,13 +118,211 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         dao = new SheetHeaderDao();
     }
 
-    public void buildPersons() {
-        persons = new ArrayList<>();
-        persons.add(new Search("张三", false, "0"));
-        persons.add(new Search("李四", false, "1"));
-        persons.add(new Search("王五", false, "2"));
-        persons.add(new Search("李二", false, "3"));
+    private void initPopWindow(final Activity context) {
+        person.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        person.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(final View v) {
+                initParam();
+                screenPopWindow = new ScreenPopWindow(context, personDictList);
+                screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
+                    @Override
+                    public void onClick(EditText view, FiltrateBean filtrateBean) {
+
+                        if ("".equals(String.valueOf(view.getText()))) {
+                            return;
+                        }
+                        List<FiltrateBean.Children> children =
+                                filtrateBean.getChildren();
+                        for (FiltrateBean.Children child : children) {
+                            if (child.getValue().equals(view.getText().toString())) {
+                                Toast.makeText(context, "已存在", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        FiltrateBean.Children cd = new FiltrateBean.Children();
+                        cd.setValue(view.getText().toString());
+                        filtrateBean.getChildren().add(cd);
+                        DictModel model = new DictModel();
+                        model.setType(filtrateBean.getTypeName());
+                        model.setValue(cd.getValue());
+                        dictDao.save(model);
+                        initParam();
+                        screenPopWindow.getAdapter().notifyDataSetChanged();
+
+                    }
+                });
+                //设置多选，因为共用的一个bean，这里调用reset重置下数据
+                screenPopWindow.setSingle(false).build();
+                screenPopWindow.showAsDropDown(person.getContentEdt());
+                screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClick(List<String> list) {
+                        StringBuilder str = new StringBuilder();
+                        for (int i = 0; i < list.size(); i++) {
+                            str.append(list.get(i)).append("&");
+                        }
+                        if (list.size() > 0) {
+                            person.getContentEdt().setText(str.deleteCharAt(str.length() - 1));
+                        } else {
+                            person.getContentEdt().setText("");
+                        }
+                        Toast.makeText(context, str.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        qy.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        qy.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(final View v) {
+                initParam();
+                screenPopWindow = new ScreenPopWindow(context, qyDictList);
+                screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
+                    @Override
+                    public void onClick(EditText view, FiltrateBean filtrateBean) {
+                        if ("".equals(String.valueOf(view.getText()))) {
+                            return;
+                        }
+                        List<FiltrateBean.Children> children =
+                                filtrateBean.getChildren();
+                        for (FiltrateBean.Children child : children) {
+                            if (child.getValue().equals(view.getText().toString())) {
+                                Toast.makeText(context, "已存在", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        FiltrateBean.Children cd = new FiltrateBean.Children();
+                        cd.setValue(view.getText().toString());
+                        filtrateBean.getChildren().add(cd);
+                        DictModel model = new DictModel();
+                        model.setType(filtrateBean.getTypeName());
+                        model.setValue(cd.getValue());
+                        dictDao.save(model);
+                        initParam();
+                        screenPopWindow.getAdapter().notifyDataSetChanged();
+
+                    }
+                });
+                //设置多选，因为共用的一个bean，这里调用reset重置下数据
+                screenPopWindow.setSingle(true).build();
+                screenPopWindow.showAsDropDown(qy.getContentEdt());
+                screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClick(List<String> list) {
+                        if (list.size() > 0) {
+                            qy.getContentEdt().setText(list.get(0));
+                        } else {
+                            qy.getContentEdt().setText("");
+                        }
+                    }
+                });
+            }
+        });
+
+
+        zlnd.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        zlnd.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(final View v) {
+                initParam();
+                screenPopWindow = new ScreenPopWindow(context, yearDictList);
+                screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
+                    @Override
+                    public void onClick(EditText view, FiltrateBean filtrateBean) {
+                        if ("".equals(String.valueOf(view.getText()))) {
+                            return;
+                        }
+                        List<FiltrateBean.Children> children =
+                                filtrateBean.getChildren();
+                        for (FiltrateBean.Children child : children) {
+                            if (child.getValue().equals(view.getText().toString())) {
+                                Toast.makeText(context, "已存在", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        FiltrateBean.Children cd = new FiltrateBean.Children();
+                        cd.setValue(view.getText().toString());
+                        filtrateBean.getChildren().add(cd);
+                        DictModel model = new DictModel();
+                        model.setType(filtrateBean.getTypeName());
+                        model.setValue(cd.getValue());
+                        dictDao.save(model);
+                        initParam();
+                        screenPopWindow.getAdapter().notifyDataSetChanged();
+
+                    }
+                });
+                //设置多选，因为共用的一个bean，这里调用reset重置下数据
+                screenPopWindow.setSingle(true).build();
+                screenPopWindow.showAsDropDown(zlnd.getContentEdt());
+                screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClick(List<String> list) {
+                        if (list.size() > 0) {
+                            zlnd.getContentEdt().setText(list.get(0));
+                        } else {
+                            zlnd.getContentEdt().setText("");
+                        }
+
+                    }
+                });
+            }
+        });
+
+
+
+        fczlb.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        fczlb.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(final View v) {
+                initParam();
+                screenPopWindow = new ScreenPopWindow(context, fczlbDictList);
+                screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
+                    @Override
+                    public void onClick(EditText view, FiltrateBean filtrateBean) {
+                        if ("".equals(String.valueOf(view.getText()))) {
+                            return;
+                        }
+                        List<FiltrateBean.Children> children =
+                                filtrateBean.getChildren();
+                        for (FiltrateBean.Children child : children) {
+                            if (child.getValue().equals(view.getText().toString())) {
+                                Toast.makeText(context, "已存在", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        FiltrateBean.Children cd = new FiltrateBean.Children();
+                        cd.setValue(view.getText().toString());
+                        filtrateBean.getChildren().add(cd);
+                        DictModel model = new DictModel();
+                        model.setType(filtrateBean.getTypeName());
+                        model.setValue(cd.getValue());
+                        dictDao.save(model);
+                        initParam();
+                        screenPopWindow.getAdapter().notifyDataSetChanged();
+
+                    }
+                });
+                //设置多选，因为共用的一个bean，这里调用reset重置下数据
+                screenPopWindow.setSingle(true).build();
+                screenPopWindow.showAsDropDown(fczlb.getContentEdt());
+                screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClick(List<String> list) {
+                        if (list.size() > 0) {
+                            fczlb.getContentEdt().setText(list.get(0));
+                        } else {
+                            fczlb.getContentEdt().setText("");
+                        }
+
+                    }
+                });
+            }
+        });
     }
+
 
     public void setView(SheetHeader sheetHeader) {
         this.sheetHeader = sheetHeader;
@@ -228,5 +412,86 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
 
     public interface StartActivtiy {
         void startActivity(SheetHeader sheetHeader);
+    }
+
+    private List<FiltrateBean> personDictList, yearDictList, qyDictList,fczlbDictList;
+    private ScreenPopWindow screenPopWindow;
+
+    private void initParam() {
+        List<DictModel> persons = dictDao.list("调查人员");
+        FiltrateBean fb1 = new FiltrateBean();
+        fb1.setTypeName("调查人员");
+        String txt = person.getText();
+        String[] txts = null;
+        if (!"".equals(txt)) {
+            txts = txt.split("&");
+        }
+        List<FiltrateBean.Children> childrenList = new ArrayList<>();
+        for (DictModel dictModel : persons) {
+            boolean selected = false;
+            if (null != txts && txts.length > 0) {
+                for (String s : txts) {
+                    if (dictModel.getValue().equals(s)) {
+                        selected = true;
+                        break;
+                    }
+                }
+            }
+            FiltrateBean.Children cd = new FiltrateBean.Children();
+            cd.setValue(dictModel.getValue());
+            cd.setSelected(selected);
+            childrenList.add(cd);
+        }
+
+        fb1.setChildren(childrenList);
+        personDictList = new ArrayList<>();
+        personDictList.add(fb1);
+
+        List<DictModel> years = dictDao.list("造林年度");
+        fb1 = new FiltrateBean();
+        fb1.setTypeName("造林年度");
+        childrenList = new ArrayList<>();
+        for (DictModel dictModel : years) {
+            FiltrateBean.Children cd = new FiltrateBean.Children();
+            cd.setValue(dictModel.getValue());
+            cd.setSelected(dictModel.getValue().equals(zlnd.getText()));
+            childrenList.add(cd);
+        }
+
+        fb1.setChildren(childrenList);
+        yearDictList = new ArrayList<>();
+        yearDictList.add(fb1);
+
+
+        List<DictModel> qyList = dictDao.list("起源");
+        fb1 = new FiltrateBean();
+        fb1.setTypeName("起源");
+        childrenList = new ArrayList<>();
+        for (DictModel dictModel : qyList) {
+            FiltrateBean.Children cd = new FiltrateBean.Children();
+            cd.setValue(dictModel.getValue());
+            cd.setSelected(dictModel.getValue().equals(qy.getText()));
+            childrenList.add(cd);
+        }
+
+        fb1.setChildren(childrenList);
+        qyDictList = new ArrayList<>();
+        qyDictList.add(fb1);
+
+        List<DictModel> fcList = dictDao.list("分场造林部");
+        fb1 = new FiltrateBean();
+        fb1.setTypeName("分场造林部");
+        childrenList = new ArrayList<>();
+        for (DictModel dictModel : fcList) {
+            FiltrateBean.Children cd = new FiltrateBean.Children();
+            cd.setValue(dictModel.getValue());
+            cd.setSelected(dictModel.getValue().equals(fczlb.getText()));
+            childrenList.add(cd);
+        }
+
+        fb1.setChildren(childrenList);
+        fczlbDictList = new ArrayList<>();
+        fczlbDictList.add(fb1);
+
     }
 }

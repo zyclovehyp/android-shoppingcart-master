@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:minHeight="30dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_type_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="类型"
+            android:textColor="@color/black"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:textSize="14sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/tv_type_name"
+            android:background="@null"
+            android:layout_toLeftOf="@id/rightBtn"
+            android:gravity="center_vertical|end"
+            android:singleLine="true"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/item_group_edt"
+            android:id="@+id/inputTxt"
+            android:textSize="13sp"/>
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:id="@+id/rightBtn"
+                android:text="添  加"
+                android:textSize="10sp"
+                android:padding="2dp"
+                android:layout_marginRight="10dp"
+                android:textAlignment="center"
+                android:textColor="@color/item_group_edt"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/dialog_btn_bg"
+                />
+    </RelativeLayout>
+
+    <com.zyc.popwindow.view.SkuFlowLayout
+        android:id="@+id/layout_property"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:paddingBottom="5dp" />
+
+</LinearLayout>
