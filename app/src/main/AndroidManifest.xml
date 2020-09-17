@@ -29,9 +29,15 @@
             android:name="com.amap.api.v2.apikey"
             android:value="b6fa90dd7246d86e36c7f8b21414ea88" />
 
-        <activity android:name=".AreaMemActivity" /> <!-- <activity android:name=".AddPageActivity"></activity> -->
-        <activity android:name=".MainActivity" />
-        <activity android:name=".StartActivity">
+        <activity
+            android:name=".AreaMemActivity"
+            android:screenOrientation="portrait" /> <!-- <activity android:name=".AddPageActivity"></activity> -->
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StartActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

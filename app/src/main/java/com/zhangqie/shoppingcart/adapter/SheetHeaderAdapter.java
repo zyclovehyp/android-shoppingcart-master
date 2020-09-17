@@ -74,7 +74,7 @@ public class SheetHeaderAdapter extends BaseAdapter {
 
         if (convertView == null) {
             convertView =
-                    mInflater.inflate(R.layout.cart_list_group_item, null);
+                    mInflater.inflate(R.layout.im_cart_list_group_item, null);
 
 
             viewHolder = new ViewHolder(convertView);
@@ -103,6 +103,14 @@ public class SheetHeaderAdapter extends BaseAdapter {
                     onViewItemClickListener.onItemClick(list.get(position).isCheck(), v, position);
             }
         });
+        convertView.findViewById(R.id.clickVIew).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != onViewItemClickListener)
+                    onViewItemClickListener.onItemClick(list.get(position).isCheck(), view, position);
+            }
+        });
+        viewHolder.ydmnum.setText(sheet.getYdmnum());
         return convertView;
     }
 
@@ -110,11 +118,13 @@ public class SheetHeaderAdapter extends BaseAdapter {
         CheckBox checkBox;
         TextView textView;
         TextView item_group_topbar;
+        TextView ydmnum;
 
         public ViewHolder(View view) {
             this.checkBox = view.findViewById(R.id.check_box);
             this.textView = view.findViewById(R.id.shop_name);
             this.item_group_topbar = view.findViewById(R.id.item_group_topbar);
+            this.ydmnum = view.findViewById(R.id.ydmnum);
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.zhangqie.shoppingcart;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 
 import com.bin.david.form.core.SmartTable;
 import com.bin.david.form.data.column.Column;
-import com.bin.david.form.data.format.bg.BaseBackgroundFormat;
 import com.bin.david.form.data.table.TableData;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
@@ -27,7 +25,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AreaMemActivity extends AppCompatActivity {
+public class AreaMemActivity extends BaseActivity {
 
     private static final String TAG = AreaMemActivity.class.getName();
 

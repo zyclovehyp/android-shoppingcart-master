@@ -95,7 +95,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         ydno.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         lban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         xban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
-        ybd.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
+        ybd.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         initPopWindow(context);
         /*person.getContentEdt().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,7 +272,6 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         });
 
 
-
         fczlb.getJtRightIv().setImageResource(R.mipmap.country_selecter);
         fczlb.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
             @Override
@@ -414,7 +413,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         void startActivity(SheetHeader sheetHeader);
     }
 
-    private List<FiltrateBean> personDictList, yearDictList, qyDictList,fczlbDictList;
+    private List<FiltrateBean> personDictList, yearDictList, qyDictList, fczlbDictList;
     private ScreenPopWindow screenPopWindow;
 
     private void initParam() {

@@ -3,7 +3,6 @@ package com.zhangqie.shoppingcart;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,7 +10,7 @@ import android.view.WindowManager;
 
 import com.zhangqie.shoppingcart.dao.DictDao;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends BaseActivity {
 
 
     private static int SPLASH_DISPLAY_LENGHT = 2000;    //延迟2秒

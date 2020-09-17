@@ -171,7 +171,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="样地木根树"
+                        android:text="样地木根数"
                         android:textColor="@color/item_group_title"
                         android:textSize="15sp" />
 

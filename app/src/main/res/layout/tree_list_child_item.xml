@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/id_front"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/jinJie"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="径阶 5"
+                android:textAlignment="gravity"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0.5sp"
+                android:layout_height="match_parent"
+                android:background="#EAEAEC" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/item_chlid_content_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="胸径:"
+                            android:textColor="#6c6c6c"
+                            android:textSize="16sp" />
+                        <!--                        5.3:9 5.4:8;5.6:8-->
+                        <EditText
+                            android:id="@+id/width1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="1"
+                            android:inputType="numberDecimal"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/width2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="2"
+                            android:inputType="numberDecimal"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/width3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="3"
+                            android:inputType="numberDecimal"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/item_chlid_content_list2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="树高:"
+                            android:textColor="#6c6c6c"
+                            android:textSize="16sp" />
+                        <!--                        5.3:9 5.4:8;5.6:8-->
+                        <EditText
+                            android:id="@+id/height1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="1"
+                            android:inputType="numberDecimal"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/height2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="2"
+                            android:textSize="10sp"
+                            android:inputType="numberDecimal"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/height3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:hint="3"
+                            android:textSize="10sp"
+                            android:inputType="numberDecimal"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <!--                        android:text="¥ 88.00"-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+
+
+                        <TextView
+                            android:id="@+id/item_chlid_money"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:gravity="center"
+                            android:text="株树"
+                            android:textColor="@color/colorOrder"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/cart_num_style"
+                            android:orientation="horizontal"
+                            android:paddingLeft="3dp"
+                            android:paddingTop="2dp"
+                            android:paddingRight="3dp"
+                            android:paddingBottom="2dp">
+
+                            <Button
+                                android:id="@+id/item_chlid_close"
+                                android:layout_width="35dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="2dp"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:text="-"
+                                android:textSize="20sp"
+
+                                />
+
+                            <View
+                                android:layout_width="0.5sp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorGrayan" />
+
+                            <Button
+                                android:id="@+id/item_chlid_num"
+                                android:layout_width="35dp"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="0.5sp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorGrayan" />
+
+                            <Button
+                                android:id="@+id/item_chlid_add"
+                                android:layout_width="35dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="2dp"
+                                android:background="@android:color/transparent"
+                                android:gravity="center"
+                                android:text="+"
+                                android:textSize="20sp" />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null" />
+                        <Button
+                            android:layout_width="80dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorOrder"
+                            android:text="保存"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5sp"
+            android:background="#EAEAEC" />
+    </LinearLayout>
+
+
+</FrameLayout>

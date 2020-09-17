@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,7 +22,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.hjq.bar.OnTitleBarListener;
 import com.hjq.bar.TitleBar;
-import com.zhangqie.shoppingcart.adapter.TreeExpandAdapter;
+import com.zhangqie.shoppingcart.adapter.TreeChildExpandAdapter;
 import com.zhangqie.shoppingcart.callback.OnClickAddCloseListenter;
 import com.zhangqie.shoppingcart.dao.TreeDao;
 import com.zhangqie.shoppingcart.model.SheetHeader;
@@ -38,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private static String TAG = MainActivity.class.getName();
     @Bind(R.id.cart_expandablelistview)
@@ -52,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
     TitleBar formTitleBar;
     @Bind(R.id.titleBar)
     TitleBar titleBar;
-    TreeExpandAdapter treeExpandAdapter;
+//    TreeExpandAdapter treeExpandAdapter;
+
+    TreeChildExpandAdapter treeExpandAdapter;
+
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private boolean reqLocationPerssion() {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {//未开启定位权限
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 
     private void initMapLocation() {
         //声明定位回调监听器
@@ -263,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showExpandData() {
-        treeExpandAdapter = new TreeExpandAdapter(this, cartExpandablelistview, sheet);
+        treeExpandAdapter = new TreeChildExpandAdapter(this, cartExpandablelistview, sheet);
 
         cartExpandablelistview.setAdapter(treeExpandAdapter);
 
@@ -287,6 +291,7 @@ public class MainActivity extends AppCompatActivity {
                 showCommodityCalculation();
             }
         });
+
         showCommodityCalculation();
     }
 

@@ -9,8 +9,7 @@
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:rightBackground="@mipmap/wood"
-        app:rightIcon="@mipmap/wood"
+        app:rightTitle="修改"
         app:title="标准地调查记录表" />
 
     <ExpandableListView

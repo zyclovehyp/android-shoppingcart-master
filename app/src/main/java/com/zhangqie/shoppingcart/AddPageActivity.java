@@ -4,13 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,9 +42,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import jxl.Sheet;
 
-public class AddPageActivity extends AppCompatActivity {
+public class AddPageActivity extends BaseActivity {
 
     private static final String TAG = AddPageActivity.class.getName();
     ListView mSheet;
@@ -103,6 +100,7 @@ public class AddPageActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         break;
                     case R.id.shop_name:
+                    case R.id.clickVIew:
                         Intent intent = new Intent(AddPageActivity.this,
                                 MainActivity.class);
                         intent.putExtra("header", all.get(position));
@@ -363,7 +361,6 @@ public class AddPageActivity extends AppCompatActivity {
                 beanList.add("其他记载情况");
                 beanList.add(sheetHeader.getRemark());
                 recordList.add(beanList);
-
 
 
                 beanList = new ArrayList<String>();
@@ -634,6 +631,9 @@ public class AddPageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        all = dao.list();
+        adapter.setList(all);
+        adapter.notifyDataSetChanged();
 
     }
 

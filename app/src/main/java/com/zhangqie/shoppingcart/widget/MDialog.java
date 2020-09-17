@@ -73,9 +73,9 @@ public class MDialog extends Dialog {
             igHeight = layout.findViewById(R.id.ig_height);
             igP = layout.findViewById(R.id.ig_p);
 
-            igWidth.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
-            igHeight.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
-            igP.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
+            igWidth.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            igHeight.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            igP.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
