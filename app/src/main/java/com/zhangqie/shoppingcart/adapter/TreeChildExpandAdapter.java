@@ -75,75 +75,55 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
         viewHolder1.width1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    curr.setTestWidth1(String.valueOf(viewHolder1.width1.getText()));
-                    treeDao.save(curr);
+                curr.setTestWidth1(String.valueOf(viewHolder1.width1.getText()));
+                treeDao.save(curr);
 
-                }
             }
         });
         viewHolder1.width2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    curr.setTestWidth2(String.valueOf(viewHolder1.width2.getText()));
-                    treeDao.save(curr);
-
-                }
+                curr.setTestWidth2(String.valueOf(viewHolder1.width2.getText()));
+                treeDao.save(curr);
             }
         });
         viewHolder1.width3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    curr.setTestWidth3(String.valueOf(viewHolder1.width3.getText()));
-                    treeDao.save(curr);
+                curr.setTestWidth3(String.valueOf(viewHolder1.width3.getText()));
+                treeDao.save(curr);
 
-                }
             }
         });
         viewHolder1.height1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    curr.setTestHight1(String.valueOf(viewHolder1.height1.getText()));
-                    treeDao.save(curr);
-
-                }
+                curr.setTestHight1(String.valueOf(viewHolder1.height1.getText()));
+                treeDao.save(curr);
             }
         });
         viewHolder1.height2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    curr.setTestHight2(String.valueOf(viewHolder1.height2.getText()));
-                    treeDao.save(curr);
-
-                }
+                curr.setTestHight2(String.valueOf(viewHolder1.height2.getText()));
+                treeDao.save(curr);
             }
         });
         viewHolder1.height3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    curr.setTestHight3(String.valueOf(viewHolder1.height3.getText()));
-                    treeDao.save(curr);
-
-                }
+                curr.setTestHight3(String.valueOf(viewHolder1.height3.getText()));
+                treeDao.save(curr);
             }
         });
 
-        if (viewHolder1.groupPosition == groupPosition && viewHolder1.position == position) {
+        viewHolder1.width1.setText(curr.getTestWidth1());
+        viewHolder1.width2.setText(curr.getTestWidth2());
+        viewHolder1.width3.setText(curr.getTestWidth3());
 
-            viewHolder1.width1.setText(curr.getTestWidth1());
-            viewHolder1.width2.setText(curr.getTestWidth2());
-            viewHolder1.width3.setText(curr.getTestWidth3());
-
-            viewHolder1.height1.setText(curr.getTestHight1());
-            viewHolder1.height2.setText(curr.getTestHight2());
-            viewHolder1.height3.setText(curr.getTestHight3());
-        }
-
+        viewHolder1.height1.setText(curr.getTestHight1());
+        viewHolder1.height2.setText(curr.getTestHight2());
+        viewHolder1.height3.setText(curr.getTestHight3());
 
         return convertView;
     }

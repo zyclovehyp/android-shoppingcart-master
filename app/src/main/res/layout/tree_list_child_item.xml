@@ -170,7 +170,11 @@
                             android:textColor="@color/colorOrder"
                             android:textSize="16dp"
                             android:textStyle="bold" />
-
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@null" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -223,16 +227,13 @@
                                 android:text="+"
                                 android:textSize="20sp" />
                         </LinearLayout>
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@null" />
+
                         <Button
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
                             android:background="@color/colorOrder"
                             android:text="保存"
+                            android:visibility="gone"
                             android:textColor="@android:color/white" />
                     </LinearLayout>
 
