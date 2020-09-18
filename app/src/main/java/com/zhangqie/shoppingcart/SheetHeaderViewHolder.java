@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -78,7 +79,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         other_edit = findByID(R.id.other_edit);
 
         fczlb.setText("");
-        sz.setText("按树");
+
         qy.setText("");
         cfdd.setText("");
         lban.setText("");
@@ -90,19 +91,25 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         person.setText("");
         ydmnum.setText("1");
         other_edit.setText("");
-        type.setText("");
 
         ydno.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         lban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         xban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
-        ybd.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        ybd.getContentEdt().setInputType(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
         initPopWindow(context);
-        /*person.getContentEdt().setOnClickListener(new View.OnClickListener() {
+
+        type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (type.isChecked()) {
+                    sz.setText("");
+                    sz.getJtRightIv().setVisibility(View.VISIBLE);
+                } else {
+                    sz.setText("桉树");
+                    sz.getJtRightIv().setVisibility(View.GONE);
+                }
             }
-        });*/
+        });
         bzdmj.getContentEdt().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -320,6 +327,59 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                 });
             }
         });
+
+
+        sz.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        sz.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(final View v) {
+                if (!type.isChecked()) {
+                    return;
+                }
+                initParam();
+                screenPopWindow = new ScreenPopWindow(context, szDictList);
+                screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
+                    @Override
+                    public void onClick(EditText view, FiltrateBean filtrateBean) {
+                        if ("".equals(String.valueOf(view.getText()))) {
+                            return;
+                        }
+                        List<FiltrateBean.Children> children =
+                                filtrateBean.getChildren();
+                        for (FiltrateBean.Children child : children) {
+                            if (child.getValue().equals(view.getText().toString())) {
+                                Toast.makeText(context, "已存在", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        FiltrateBean.Children cd = new FiltrateBean.Children();
+                        cd.setValue(view.getText().toString());
+                        filtrateBean.getChildren().add(cd);
+                        DictModel model = new DictModel();
+                        model.setType(filtrateBean.getTypeName());
+                        model.setValue(cd.getValue());
+                        dictDao.save(model);
+                        initParam();
+                        screenPopWindow.getAdapter().notifyDataSetChanged();
+
+                    }
+                });
+                //设置多选，因为共用的一个bean，这里调用reset重置下数据
+                screenPopWindow.setSingle(true).build();
+                screenPopWindow.showAsDropDown(fczlb.getContentEdt());
+                screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClick(List<String> list) {
+                        if (list.size() > 0) {
+                            sz.getContentEdt().setText(list.get(0));
+                        } else {
+                            sz.getContentEdt().setText("");
+                        }
+
+                    }
+                });
+            }
+        });
     }
 
 
@@ -339,6 +399,8 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         ydmnum.setText(sheetHeader.getYdmnum());
         other_edit.setText(sheetHeader.getRemark());
         person.setText(sheetHeader.getPerson());
+        type.setChecked("1".equals(sheetHeader.getType()));
+
 
     }
 
@@ -413,7 +475,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         void startActivity(SheetHeader sheetHeader);
     }
 
-    private List<FiltrateBean> personDictList, yearDictList, qyDictList, fczlbDictList;
+    private List<FiltrateBean> personDictList, yearDictList, qyDictList, fczlbDictList, szDictList;
     private ScreenPopWindow screenPopWindow;
 
     private void initParam() {
@@ -491,6 +553,23 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         fb1.setChildren(childrenList);
         fczlbDictList = new ArrayList<>();
         fczlbDictList.add(fb1);
+
+
+        List<DictModel> szList = dictDao.list("树种");
+        fb1 = new FiltrateBean();
+        fb1.setTypeName("树种");
+
+        childrenList = new ArrayList<>();
+        for (DictModel dictModel : szList) {
+            FiltrateBean.Children cd = new FiltrateBean.Children();
+            cd.setValue(dictModel.getValue());
+            cd.setSelected(dictModel.getValue().equals(sz.getText()));
+            childrenList.add(cd);
+        }
+
+        fb1.setChildren(childrenList);
+        szDictList = new ArrayList<>();
+        szDictList.add(fb1);
 
     }
 }

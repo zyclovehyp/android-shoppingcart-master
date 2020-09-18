@@ -13,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageButton;
+
 import com.zhangqie.shoppingcart.R;
 import com.zhangqie.shoppingcart.model.AreaModel;
 
@@ -73,9 +75,9 @@ public class MDialog extends Dialog {
             igHeight = layout.findViewById(R.id.ig_height);
             igP = layout.findViewById(R.id.ig_p);
 
-            igWidth.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            igHeight.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            igP.getContentEdt().setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            igWidth.getContentEdt().setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+            igHeight.getContentEdt().setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+            igP.getContentEdt().setInputType(EditorInfo.TYPE_CLASS_NUMBER|EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
 
 
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

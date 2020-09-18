@@ -94,6 +94,7 @@
                 app:edt_hint_content="请输入树种"
                 app:jt_visible="false"
                 app:paddingLeft="15dp"
+                app:isEditable="false"
                 app:title="树种" />
 
             <com.zhangqie.shoppingcart.widget.ItemGroup
