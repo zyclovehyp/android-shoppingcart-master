@@ -159,6 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:paddingLeft="15dp">
 
                 <LinearLayout
@@ -247,7 +248,9 @@
                 app:isEditable="false"
                 app:jt_visible="false"
                 app:paddingLeft="15dp"
-                app:title="标准地面积" />
+                app:title="标准地面积"
+                android:visibility="gone"
+                />
 
             <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_gps"

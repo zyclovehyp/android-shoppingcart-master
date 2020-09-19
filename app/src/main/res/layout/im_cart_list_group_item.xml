@@ -39,6 +39,7 @@
             android:id="@+id/clickVIew"
             android:layout_height="46dp"
             android:gravity="center"
+            android:visibility="gone"
             android:orientation="horizontal"
             android:paddingRight="10sp">
 
@@ -51,6 +52,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:text="样地木根数"
+                android:visibility="invisible"
                 android:textColor="@color/colorOrder"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -63,6 +65,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:id="@+id/ydmnum"
+                android:visibility="invisible"
                 android:text="12"
                 />
 

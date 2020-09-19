@@ -169,7 +169,7 @@ public class ExcelUtil {
         try {
 
             ot = new FileOutputStream(file);
-            osw = new OutputStreamWriter(ot);
+            osw = new OutputStreamWriter(ot,"UTF-8");
             bw = new BufferedWriter(osw);
 
             if (null != objList && objList.size() > 0) {

@@ -37,7 +37,7 @@ public class DictDao {
 
     public void insertInitData() {
         DictModel dictModel;
-        String[] types = new String[]{"分场造林部", "起源", "造林年度", "调查人员"};
+        String[] types = new String[]{"分场造林部", "起源", "造林年度", "调查人员", "树种"};
         String[] address = new String[]{
                 "东山",
                 "高岭",
@@ -108,6 +108,16 @@ public class DictDao {
         }
 
 
+        String[] treeTypes = new String[]{
+                "八角", "马尾松", "杉木"
+        };
+        for (String s : treeTypes) {
+            dictModel = new DictModel();
+            dictModel.setType(types[4]);
+            dictModel.setValue(s);
+            this.save(dictModel);
+        }
+
     }
 
     public List<DictModel> list(String type) {
@@ -124,4 +134,6 @@ public class DictDao {
         return list;
 
     }
+
+
 }

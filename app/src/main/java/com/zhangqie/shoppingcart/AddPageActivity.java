@@ -543,15 +543,7 @@ public class AddPageActivity extends BaseActivity {
         return Gravity.START;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
-        if (requestCode == 1 && resultCode == 3) {
-            SheetHeader sheet = (SheetHeader) data.getSerializableExtra("result");
-            viewHolder.changeMianji(sheet.getMianJi());
-        }
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

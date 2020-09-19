@@ -37,6 +37,7 @@ public class ItemGroup extends FrameLayout implements View.OnClickListener {
     private ImageView jtRightIv; //向右的箭头
     private ItemOnClickListener itemOnClickListener; //Item的点击事件
 
+    private boolean isEditable;
 
     public ItemGroup(@NonNull Context context) {
         super(context);
@@ -78,7 +79,7 @@ public class ItemGroup extends FrameLayout implements View.OnClickListener {
                 super.afterTextChanged(editable);
                 //输入框输入内容改变
                 String content = contentEdt.getText().toString().trim();
-                if (!TextUtils.isEmpty(content)) {
+                if (!TextUtils.isEmpty(content) && isEditable) {
                     //输入内容不为空的时候，清除输入的Icon可见
                     clearIv.setVisibility(VISIBLE);
                 } else {
@@ -121,7 +122,7 @@ public class ItemGroup extends FrameLayout implements View.OnClickListener {
         String hintContent = typedArray.getString(R.styleable.ItemGroup_edt_hint_content);
         int hintColor = typedArray.getColor(R.styleable.ItemGroup_edt_hint_text_color, defaultHintColor);
         //默认输入框可以编辑
-        boolean isEditable = typedArray.getBoolean(R.styleable.ItemGroup_isEditable, true);
+        isEditable = typedArray.getBoolean(R.styleable.ItemGroup_isEditable, true);
         //向右的箭头图标是否可见，默认可见
         boolean showJtIcon = typedArray.getBoolean(R.styleable.ItemGroup_jt_visible, true);
         typedArray.recycle();

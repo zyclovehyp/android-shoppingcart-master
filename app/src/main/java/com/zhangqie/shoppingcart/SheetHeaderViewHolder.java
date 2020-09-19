@@ -78,6 +78,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         type = findByID(R.id.sheet_type);
         other_edit = findByID(R.id.other_edit);
 
+
         fczlb.setText("");
 
         qy.setText("");
@@ -110,19 +111,14 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                 }
             }
         });
-        bzdmj.getContentEdt().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                sheetHeader.setSheetNo(ydno.getText());
-                if (null != startActivtiy) {
-                    startActivtiy.startActivity(sheetHeader);
-                }
-            }
-        });
 
         this.sheetHeader = sheetHeader;
         dao = new SheetHeaderDao();
+    }
+
+    public void disableType() {
+        type.setClickable(false);
     }
 
     private void initPopWindow(final Activity context) {
@@ -137,6 +133,8 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                     public void onClick(EditText view, FiltrateBean filtrateBean) {
 
                         if ("".equals(String.valueOf(view.getText()))) {
+                            Toast.makeText(context, "请输入要添加的内容！", Toast.LENGTH_SHORT).show();
+
                             return;
                         }
                         List<FiltrateBean.Children> children =
@@ -401,12 +399,15 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         person.setText(sheetHeader.getPerson());
         type.setChecked("1".equals(sheetHeader.getType()));
 
-
+        if (type.isChecked()) {
+            sz.setText("");
+            sz.getJtRightIv().setVisibility(View.VISIBLE);
+        } else {
+            sz.setText("桉树");
+            sz.getJtRightIv().setVisibility(View.GONE);
+        }
     }
 
-    public void changeMianji(String mianji) {
-        this.bzdmj.getContentEdt().setText(mianji);
-    }
 
     public void setSaveListener(OnSaveListener saveListener) {
         this.saveListener = saveListener;
@@ -446,7 +447,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         sheetHeader.setMianJi(bzdmj.getText());
         sheetHeader.setGps(gps.getText());
         sheetHeader.setDate(date.getText());
-        sheetHeader.setType(type.isChecked() ? "0" : "1");
+        sheetHeader.setType(type.isChecked() ? "1" : "0");
         sheetHeader.setRemark(other_edit.getText().toString());
         sheetHeader.setPerson(person.getText());
         sheetHeader.setYdmnum(ydmnum.getText().toString());

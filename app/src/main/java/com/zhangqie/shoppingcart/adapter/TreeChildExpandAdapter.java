@@ -1,6 +1,8 @@
 package com.zhangqie.shoppingcart.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zhangqie.shoppingcart.AreaMemActivity;
+import com.zhangqie.shoppingcart.MainActivity;
 import com.zhangqie.shoppingcart.R;
 import com.zhangqie.shoppingcart.callback.OnClickAddCloseListenter;
 import com.zhangqie.shoppingcart.callback.OnClickDeleteListenter;
@@ -21,17 +25,18 @@ import com.zhangqie.shoppingcart.dao.SheetHeaderDao;
 import com.zhangqie.shoppingcart.dao.TreeDao;
 import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.model.TreeModel;
+import com.zhangqie.shoppingcart.widget.ItemGroup;
 
 public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
+    private Activity context;
     private ListView listView;
     public SheetHeader sheet;
 
     SheetHeaderDao sheetHeaderDao;
     TreeDao treeDao;
 
-    public TreeChildExpandAdapter(Context context, ListView listView, SheetHeader sheet) {
+    public TreeChildExpandAdapter(Activity context, ListView listView, SheetHeader sheet) {
         super();
         treeDao = new TreeDao();
         sheetHeaderDao = new SheetHeaderDao();
@@ -124,11 +129,28 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
         viewHolder1.height1.setText(curr.getTestHight1());
         viewHolder1.height2.setText(curr.getTestHight2());
         viewHolder1.height3.setText(curr.getTestHight3());
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.item_chlid_add:
+                        onClickAddCloseListenter.onItemClick(v, 2, groupPosition, position, Integer.valueOf(viewHolder1.btnNum.getText().toString()));
+                        break;
+                    case R.id.item_chlid_close:
+                        onClickAddCloseListenter.onItemClick(v, 1, groupPosition, position, Integer.valueOf(viewHolder1.btnNum.getText().toString()));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
 
+        viewHolder1.btnAdd.setOnClickListener(onClickListener);
+        viewHolder1.btnClose.setOnClickListener(onClickListener);
         return convertView;
     }
 
-    class ViewHolder1 implements View.OnClickListener {
+    class ViewHolder1 {
         private int groupPosition;
         private int position;
         private TextView jinJie;
@@ -143,10 +165,10 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
             this.groupPosition = groupPosition;
             this.position = position;
             btnAdd = (Button) view.findViewById(R.id.item_chlid_add);
-            btnAdd.setOnClickListener(this);
+
             btnNum = (Button) view.findViewById(R.id.item_chlid_num);
             btnClose = (Button) view.findViewById(R.id.item_chlid_close);
-            btnClose.setOnClickListener(this);
+
 
             jinJie = view.findViewById(R.id.jinJie);
             width1 = view.findViewById(R.id.width1);
@@ -190,19 +212,7 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
 
         }
 
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.item_chlid_add:
-                    onClickAddCloseListenter.onItemClick(v, 2, groupPosition, position, Integer.valueOf(btnNum.getText().toString()));
-                    break;
-                case R.id.item_chlid_close:
-                    onClickAddCloseListenter.onItemClick(v, 1, groupPosition, position, Integer.valueOf(btnNum.getText().toString()));
-                    break;
-                default:
-                    break;
-            }
-        }
+
     }
 
     // CheckBox1接口的方法
@@ -278,7 +288,7 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
         viewHolder.textView.setText(title);
         viewHolder.btnNum.setText(sheet.getYdmnum());
         viewHolder.checkBox.setVisibility(View.GONE);
-
+        viewHolder.ig_bzdmjHeader.setText(sheet.getMianJi());
         return convertView;
     }
 
@@ -294,10 +304,12 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+
     class ViewHolder implements View.OnClickListener {
         CheckBox checkBox;
         TextView textView;
         TextView textTopBar;
+        ItemGroup ig_bzdmjHeader;
         private int groupPosition, position;
         private Button btnAdd;
         private Button btnNum;
@@ -312,7 +324,16 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
             btnAdd.setOnClickListener(this);
             btnNum = (Button) view.findViewById(R.id.item_chlid_num);
             btnClose = (Button) view.findViewById(R.id.item_chlid_close);
+            ig_bzdmjHeader = view.findViewById(R.id.ig_bzdmjHeader);
             btnClose.setOnClickListener(this);
+            ig_bzdmjHeader.getContentEdt().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, AreaMemActivity.class);
+                    intent.putExtra("header", sheet);
+                    context.startActivityForResult(intent, 2);
+                }
+            });
         }
 
         @Override

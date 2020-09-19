@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mContent"
     android:orientation="vertical">
 
@@ -107,6 +108,16 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <com.zhangqie.shoppingcart.widget.ItemGroup
+        android:id="@+id/ig_bzdmjHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="请录入标准地面积"
+        app:isEditable="false"
+        app:jt_visible="false"
+        app:paddingLeft="15dp"
+        app:title="标准地面积"
+        />
 
     <View
         android:layout_width="match_parent"

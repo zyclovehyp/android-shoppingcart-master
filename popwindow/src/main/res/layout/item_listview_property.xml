@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toRightOf="@id/tv_type_name"
-            android:background="@null"
             android:layout_toLeftOf="@id/rightBtn"
             android:gravity="center_vertical|end"
             android:singleLine="true"
@@ -48,7 +47,7 @@
                 android:textColor="@color/item_group_edt"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:background="@drawable/dialog_btn_bg"
+                android:background="@drawable/dialog_btn_bg_pop"
                 />
     </RelativeLayout>
 

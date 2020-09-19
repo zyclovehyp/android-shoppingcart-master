@@ -108,6 +108,7 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
     }
 
 
@@ -194,14 +195,8 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, "保存成功！", Toast.LENGTH_LONG).show();
             }
         });
-        viewHolder.setStartActivtiy(new SheetHeaderViewHolder.StartActivtiy() {
-            @Override
-            public void startActivity(SheetHeader sheetHeader) {
-                Intent intent = new Intent(MainActivity.this, AreaMemActivity.class);
-                intent.putExtra("header", sheetHeader);
-                startActivityForResult(intent, 2);
-            }
-        });
+
+        viewHolder.disableType();
     }
 
     private void initView() {
@@ -361,8 +356,10 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //此处可以根据两个Code进行判断，本页面和结果页面跳过来的值
         if (requestCode == 2 && resultCode == 3) {
-            SheetHeader sheet = (SheetHeader) data.getSerializableExtra("result");
-            viewHolder.changeMianji(sheet.getMianJi());
+            SheetHeader result = (SheetHeader) data.getSerializableExtra("result");
+            sheet.setMianJi(result.getMianJi());
+            treeExpandAdapter.notifyDataSetChanged();
+
             //需要更新数据
             try {
                 viewHolder.dao.save(sheet);
