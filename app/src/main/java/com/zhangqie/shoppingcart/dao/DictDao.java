@@ -135,5 +135,12 @@ public class DictDao {
 
     }
 
+    public void delete(String val) {
+
+        Application.db.delete(DictModel.TABLE_NAME, "val=?", new String[]{val});
+
+
+    }
+
 
 }

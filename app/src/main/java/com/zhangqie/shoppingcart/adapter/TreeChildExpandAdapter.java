@@ -274,7 +274,7 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
                              View convertView, ViewGroup parent) {
         final TreeChildExpandAdapter.ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.cart_list_group_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.tree_list_group_item, null);
             viewHolder = new TreeChildExpandAdapter.ViewHolder(convertView, groupPosition);
             convertView.setTag(viewHolder);
         } else {
@@ -284,11 +284,20 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
             viewHolder.textTopBar.setVisibility(View.GONE);
         }
 //        CartInfo.DataBean dataBean = (CartInfo.DataBean) getGroup(groupPosition);
-        String title = String.format("样带编号:%s GPS:%s", sheet.getSheetNo(), sheet.getGps());
+        String title = String.format("样带编号:%s", sheet.getSheetNo());
+        String gps = String.format("GPS:%s", sheet.getGps());
         viewHolder.textView.setText(title);
+        viewHolder.gps.setText(gps);
         viewHolder.btnNum.setText(sheet.getYdmnum());
         viewHolder.checkBox.setVisibility(View.GONE);
-        viewHolder.ig_bzdmjHeader.setText(sheet.getMianJi());
+        viewHolder.ig_bzdmj.setText(String.format("样带面积:%s", sheet.getMianJi()));
+
+        if("1".equals(sheet.getType())){
+            convertView.findViewById(R.id.changControl).setVisibility(View.INVISIBLE);
+            convertView.findViewById(R.id.item_chlid_money).setVisibility(View.INVISIBLE);
+
+        }
+
         return convertView;
     }
 
@@ -307,9 +316,8 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
 
     class ViewHolder implements View.OnClickListener {
         CheckBox checkBox;
-        TextView textView;
+        TextView textView, gps, ig_bzdmj;
         TextView textTopBar;
-        ItemGroup ig_bzdmjHeader;
         private int groupPosition, position;
         private Button btnAdd;
         private Button btnNum;
@@ -322,11 +330,12 @@ public class TreeChildExpandAdapter extends BaseExpandableListAdapter {
             textTopBar = (TextView) view.findViewById(R.id.item_group_topbar);
             btnAdd = (Button) view.findViewById(R.id.item_chlid_add);
             btnAdd.setOnClickListener(this);
+            gps = view.findViewById(R.id.gps);
             btnNum = (Button) view.findViewById(R.id.item_chlid_num);
             btnClose = (Button) view.findViewById(R.id.item_chlid_close);
-            ig_bzdmjHeader = view.findViewById(R.id.ig_bzdmjHeader);
+            ig_bzdmj = view.findViewById(R.id.ig_bzdmj);
             btnClose.setOnClickListener(this);
-            ig_bzdmjHeader.getContentEdt().setOnClickListener(new View.OnClickListener() {
+            ig_bzdmj.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, AreaMemActivity.class);

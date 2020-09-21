@@ -122,12 +122,23 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
     }
 
     private void initPopWindow(final Activity context) {
+
+        final ScreenPopWindow.OnDeleteClickListener onDeleteClickListener =
+                new ScreenPopWindow.OnDeleteClickListener() {
+                    @Override
+                    public void onDeleteClick(List<String> list) {
+                        for (String s : list) {
+                            dictDao.delete(s);
+                        }
+                    }
+                };
         person.getJtRightIv().setImageResource(R.mipmap.country_selecter);
         person.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
             @Override
             public void onItemClick(final View v) {
                 initParam();
                 screenPopWindow = new ScreenPopWindow(context, personDictList);
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
                 screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
                     @Override
                     public void onClick(EditText view, FiltrateBean filtrateBean) {
@@ -160,6 +171,8 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                 //设置多选，因为共用的一个bean，这里调用reset重置下数据
                 screenPopWindow.setSingle(false).build();
                 screenPopWindow.showAsDropDown(person.getContentEdt());
+
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
                 screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
                     @Override
                     public void onConfirmClick(List<String> list) {
@@ -184,6 +197,8 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
             public void onItemClick(final View v) {
                 initParam();
                 screenPopWindow = new ScreenPopWindow(context, qyDictList);
+
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
                 screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
                     @Override
                     public void onClick(EditText view, FiltrateBean filtrateBean) {
@@ -233,6 +248,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
             public void onItemClick(final View v) {
                 initParam();
                 screenPopWindow = new ScreenPopWindow(context, yearDictList);
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
                 screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
                     @Override
                     public void onClick(EditText view, FiltrateBean filtrateBean) {
@@ -283,6 +299,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
             public void onItemClick(final View v) {
                 initParam();
                 screenPopWindow = new ScreenPopWindow(context, fczlbDictList);
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
                 screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
                     @Override
                     public void onClick(EditText view, FiltrateBean filtrateBean) {
@@ -336,6 +353,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                 }
                 initParam();
                 screenPopWindow = new ScreenPopWindow(context, szDictList);
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
                 screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
                     @Override
                     public void onClick(EditText view, FiltrateBean filtrateBean) {

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="11dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:id="@+id/shop_name"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="样带编号:20200921001 " />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:id="@+id/gps"
+            android:gravity="center_vertical"
+            android:text="GPS坐标：299，221" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/item_group_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:visibility="gone"
+        android:background="@color/colorGrayan" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="11sp">
+
+        <CheckBox
+            android:id="@+id/check_box"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:background="@drawable/checkbox_payment"
+            android:button="@android:color/transparent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/ig_bzdmj"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="标准地面积：0.1233" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/item_chlid_money"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="样地木根数"  />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:id="@+id/changControl"
+                android:background="@drawable/cart_num_style"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="3dp"
+                android:paddingTop="2dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="2dp">
+
+                <Button
+                    android:id="@+id/item_chlid_close"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="20sp"
+
+                    />
+
+                <View
+                    android:layout_width="0.5sp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorGrayan" />
+
+                <Button
+                    android:id="@+id/item_chlid_num"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="0.5sp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorGrayan" />
+
+                <Button
+                    android:id="@+id/item_chlid_add"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="2dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+   <!-- <com.zhangqie.shoppingcart.widget.ItemGroup
+        android:id="@+id/ig_bzdmjHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="请录入标准地面积"
+        app:isEditable="false"
+        app:jt_visible="false"
+        app:paddingLeft="15dp"
+        app:title="标准地面积" />-->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5sp"
+        android:background="#EAEAEC" />
+</LinearLayout>

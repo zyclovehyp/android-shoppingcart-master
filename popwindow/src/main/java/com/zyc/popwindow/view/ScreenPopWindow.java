@@ -20,9 +20,10 @@ public class ScreenPopWindow extends PopupWindow {
     private List<FiltrateBean> dictList;
     private CustomHeightListView mListView;
     private TextView tvReset, tvConfirm;
-    private View nullView,topView,bottomView;
+    private View nullView, topView, bottomView;
     private ScreenListViewAdapter adapter;
     private OnConfirmClickListener onConfirmClickListener;
+    private OnDeleteClickListener onDeleteClickListener;
 
     public ScreenListViewAdapter getAdapter() {
         return adapter;
@@ -32,19 +33,19 @@ public class ScreenPopWindow extends PopupWindow {
         this.dictList = dictList;
     }
 
-    private int alpha=0x1A000000;
+    private int alpha = 0x1A000000;
 
-    public ScreenPopWindow(Activity context, List<FiltrateBean> dictList ) {
+    public ScreenPopWindow(Activity context, List<FiltrateBean> dictList) {
         this.context = context;
-        this.dictList=dictList;
+        this.dictList = dictList;
         initView();
     }
 
     //设置顶部分割线是否显示，以及颜色。默认true,#f3f3f3
-    public ScreenPopWindow setTopView(Boolean bl, int color){
-        if(bl) {
+    public ScreenPopWindow setTopView(Boolean bl, int color) {
+        if (bl) {
             topView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             topView.setVisibility(View.GONE);
         }
         topView.setBackgroundColor(color);
@@ -52,10 +53,10 @@ public class ScreenPopWindow extends PopupWindow {
     }
 
     //设置底部分割线是否显示，以及颜色。默认true,#f3f3f3
-    public ScreenPopWindow setBottomView(Boolean bl, int color){
-        if(bl) {
+    public ScreenPopWindow setBottomView(Boolean bl, int color) {
+        if (bl) {
             bottomView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             bottomView.setVisibility(View.GONE);
         }
         bottomView.setBackgroundColor(color);
@@ -63,7 +64,7 @@ public class ScreenPopWindow extends PopupWindow {
     }
 
     //设置确定按钮的文字，字体大小，字体颜色，背景颜色。默认“确定”，14，#ffffff，#0aa666，
-    public ScreenPopWindow setConfirm(String text, int size, int textColor, int color){
+    public ScreenPopWindow setConfirm(String text, int size, int textColor, int color) {
         tvConfirm.setText(text);
         tvConfirm.setTextSize(size);
         tvConfirm.setTextColor(textColor);
@@ -72,7 +73,7 @@ public class ScreenPopWindow extends PopupWindow {
     }
 
     //设置重置按钮的文字，字体大小，字体颜色，背景颜色。默认“重置”，#000000，#ffffff
-    public ScreenPopWindow setReset(String text, int size, int textColor, int color){
+    public ScreenPopWindow setReset(String text, int size, int textColor, int color) {
         tvReset.setText(text);
         tvReset.setTextSize(size);
         tvReset.setTextColor(textColor);
@@ -81,83 +82,83 @@ public class ScreenPopWindow extends PopupWindow {
     }
 
     //设置阴影层的透明度 默认是0.5f
-    public ScreenPopWindow setAlpha(int mAlpha){
+    public ScreenPopWindow setAlpha(int mAlpha) {
         alpha = mAlpha;
         return this;
     }
 
     //设置title的字体颜色,默认#000000
-    public ScreenPopWindow setTitleColor(int color){
+    public ScreenPopWindow setTitleColor(int color) {
         adapter.setTitleColor(color);
         return this;
     }
 
     //设置title的字体大小,默认14
-    public ScreenPopWindow setTitleSize(int size){
+    public ScreenPopWindow setTitleSize(int size) {
         adapter.setTitleSize(size);
         return this;
     }
 
     //设置item圆角大小，默认12
-    public ScreenPopWindow setRadius(int radius){
+    public ScreenPopWindow setRadius(int radius) {
         adapter.setRadius(radius);
         return this;
     }
 
     //设置item边框粗细，默认2
-    public ScreenPopWindow setStrokeWidth(int width){
+    public ScreenPopWindow setStrokeWidth(int width) {
         adapter.setStrokeWidth(width);
         return this;
     }
 
     //设置item边框颜色，默认#0aa666
-    public ScreenPopWindow setStrokeColor(int color){
+    public ScreenPopWindow setStrokeColor(int color) {
         adapter.setStrokeColor(color);
         return this;
     }
 
     //设置item宽度，默认是200dp
-    public ScreenPopWindow setBoxWidth(int width){
+    public ScreenPopWindow setBoxWidth(int width) {
         adapter.setBoxWidth(width);
         return this;
     }
 
     //设置item高度，默认是WRAP_CONTENT
-    public ScreenPopWindow setBoxHeight(int height){
+    public ScreenPopWindow setBoxHeight(int height) {
         adapter.setBoxHeight(height);
         return this;
     }
 
     //设置item选中时的颜色，默认#0aa666
-    public ScreenPopWindow setChecked(String color){
+    public ScreenPopWindow setChecked(String color) {
         adapter.setChecked(color);
         return this;
     }
 
     //设置item未选中时的颜色，默认#000000
-    public ScreenPopWindow setEnabled(String color){
+    public ScreenPopWindow setEnabled(String color) {
         adapter.setEnabled(color);
         return this;
     }
 
     //设置item字体大小，默认13
-    public ScreenPopWindow setBoxSize(int size){
+    public ScreenPopWindow setBoxSize(int size) {
         adapter.setBoxSize(size);
         return this;
     }
 
     //设置是否开启单选，默认单选
-    public ScreenPopWindow setSingle(boolean bl){
+    public ScreenPopWindow setSingle(boolean bl) {
         adapter.setSingle(bl);
         return this;
     }
 
 
     //显示控件时数据重置
-    public ScreenPopWindow reset(){
+    public ScreenPopWindow reset() {
         for (int x = 0; x < dictList.size(); x++) {
             List<FiltrateBean.Children> childrenBeen = dictList.get(x).getChildren();
-            for (int y=0;y<childrenBeen.size();y++){
+            for (int y = 0; y < childrenBeen.size(); y++) {
                 if (childrenBeen.get(y).isSelected())
                     childrenBeen.get(y).setSelected(false);
             }
@@ -166,11 +167,11 @@ public class ScreenPopWindow extends PopupWindow {
     }
 
     //参数设置完毕，一定要build一下
-    public void build(){
+    public void build() {
         initPop();
     }
 
-    private void initView(){
+    private void initView() {
         View popView = View.inflate(context, R.layout.flow_pop_listview, null);
         //设置view
         this.setContentView(popView);
@@ -195,13 +196,19 @@ public class ScreenPopWindow extends PopupWindow {
         tvReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int x = 0; x < dictList.size(); x++) {
-                    List<FiltrateBean.Children> childrenBeen = dictList.get(x).getChildren();
-                    for (int y=0;y<childrenBeen.size();y++){
-                        if (childrenBeen.get(y).isSelected())
-                            childrenBeen.get(y).setSelected(false);
+                List<String> list = new ArrayList<>();
+                for (FiltrateBean fb : dictList) {
+                    List<FiltrateBean.Children> cdList = fb.getChildren();
+
+                    for (int x = 0; x < cdList.size(); x++) {
+                        FiltrateBean.Children children = cdList.get(x);
+                        if (children.isSelected()) {
+                            fb.getChildren().remove(children);
+                            list.add(children.getValue());
+                        }
                     }
                 }
+                onDeleteClickListener.onDeleteClick(list);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -213,7 +220,7 @@ public class ScreenPopWindow extends PopupWindow {
                     List<FiltrateBean.Children> cdList = fb.getChildren();
                     for (int x = 0; x < cdList.size(); x++) {
                         FiltrateBean.Children children = cdList.get(x);
-                        if (children.isSelected()){
+                        if (children.isSelected()) {
                             list.add(children.getValue());
                         }
                     }
@@ -230,12 +237,20 @@ public class ScreenPopWindow extends PopupWindow {
         });
     }
 
-    public void setOnConfirmClickListener(OnConfirmClickListener onConfirmClickListener){
-        this.onConfirmClickListener=onConfirmClickListener;
+    public void setOnConfirmClickListener(OnConfirmClickListener onConfirmClickListener) {
+        this.onConfirmClickListener = onConfirmClickListener;
     }
 
-    public interface OnConfirmClickListener{
+    public void setOnDeleteClickListener(OnDeleteClickListener onDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+
+    public interface OnConfirmClickListener {
         void onConfirmClick(List<String> list);
     }
 
+    public interface OnDeleteClickListener {
+        void onDeleteClick(List<String> list);
+    }
 }

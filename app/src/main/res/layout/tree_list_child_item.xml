@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/id_front"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="80dp"
         android:background="#ffffff"
         android:orientation="vertical">
 
@@ -44,6 +44,7 @@
                     android:id="@+id/item_chlid_money"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     android:layout_marginRight="5dp"
                     android:ems="1"
                     android:gravity="center"
@@ -123,6 +124,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
+                android:paddingLeft="5dp"
                 android:orientation="vertical">
 
 

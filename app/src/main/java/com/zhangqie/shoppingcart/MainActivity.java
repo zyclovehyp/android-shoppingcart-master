@@ -77,6 +77,9 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         gps = findViewById(R.id.ig_gps);
         sheet = (SheetHeader) getIntent().getSerializableExtra("header");
+
+
+
         initLeftView();
         treeDao = new TreeDao();
 

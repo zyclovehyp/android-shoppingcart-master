@@ -68,8 +68,8 @@ public class SheetHeaderAdapter extends BaseAdapter {
         SheetHeader sheet = list.get(position);
 
 
-        String showText = String.format("样带编号：%s  GPS：%s", sheet.getSheetNo()
-                , sheet.getGps());
+        String showText = String.format("样带编号：%s  采伐地点：%s",
+                sheet.getSheetNo(), sheet.getAddress());
         ViewHolder viewHolder = null;
 
         if (convertView == null) {
