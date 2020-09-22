@@ -68,11 +68,8 @@ public class ExcelUtil {
 
     /**
      * 初始化Excel
-     *
-     * @param fileName
-     * @param colName
      */
-    public static void initExcel(String fileName, String[] colName) {
+    public static void initExcel(String fileName, String title) {
         format();
         WritableWorkbook workbook = null;
         try {
@@ -81,12 +78,8 @@ public class ExcelUtil {
                 file.createNewFile();
             }
             workbook = Workbook.createWorkbook(file);
-            WritableSheet sheet = workbook.createSheet("成绩表", 0);
-            //创建标题栏
-            sheet.addCell((WritableCell) new Label(0, 0, fileName, arial14format));
-            for (int col = 0; col < colName.length; col++) {
-                sheet.addCell(new Label(col, 0, colName[col], arial10format));
-            }
+            WritableSheet sheet = workbook.createSheet(title, 0);
+
             sheet.setRowView(0, 340); //设置行高
 
             workbook.write();
@@ -155,6 +148,58 @@ public class ExcelUtil {
         }
     }
 
+
+    public static void writeObjListToExcel(String filePath, ArrayList<ArrayList<String>> objList, Context c) {
+        if (objList != null && objList.size() > 0) {
+            WritableWorkbook writebook = null;
+            InputStream in = null;
+            try {
+                WorkbookSettings setEncode = new WorkbookSettings();
+                setEncode.setEncoding(UTF8_ENCODING);
+                in = new FileInputStream(new File(filePath));
+                Workbook workbook = Workbook.getWorkbook(in);
+                writebook = Workbook.createWorkbook(new File(filePath), workbook);
+                WritableSheet sheet = writebook.getSheet(0);
+
+
+                for (int j = 0; j < objList.size(); j++) {
+                    ArrayList<String> list = (ArrayList<String>) objList.get(j);
+                    for (int i = 0; i < list.size(); i++) {
+                        sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));
+                        if (list.get(i).length() <= 5) {
+                            sheet.setColumnView(i, list.get(i).length() + 8); //设置列宽
+                        } else {
+                            sheet.setColumnView(i, list.get(i).length() + 5); //设置列宽
+                        }
+                    }
+                    sheet.setRowView(j + 1, 350); //设置行高
+                }
+
+                writebook.write();
+                Toast.makeText(c, filePath, Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (writebook != null) {
+                    try {
+                        writebook.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                if (in != null) {
+                    try {
+                        in.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+    }
+
     public static void exportCSV(String filePath, ArrayList<ArrayList<String>> objList) {
 
         File file = new File(filePath);
@@ -169,7 +214,7 @@ public class ExcelUtil {
         try {
 
             ot = new FileOutputStream(file);
-            osw = new OutputStreamWriter(ot,"UTF-8");
+            osw = new OutputStreamWriter(ot, "UTF-8");
             bw = new BufferedWriter(osw);
 
             if (null != objList && objList.size() > 0) {

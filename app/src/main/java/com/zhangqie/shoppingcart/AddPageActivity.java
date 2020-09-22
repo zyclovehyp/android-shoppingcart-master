@@ -39,6 +39,7 @@ import com.zhangqie.shoppingcart.util.TimeUtils;
 import com.zhangqie.shoppingcart.widget.ItemGroup;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,9 +234,13 @@ public class AddPageActivity extends BaseActivity {
         file = new File(getSDPath() + "/Record");
         makeDir(file);
 
-        fileName = getSDPath() + "/Record/" + TimeUtils.getYear() + TimeUtils.getMonth() + TimeUtils.getDay() + TimeUtils.getCurrentTime() + ".csv";
-        ExcelUtil.exportCSV(fileName, getRecordData());
-        Toast.makeText(this, "导出成功！\n文件导出路径：" + fileName, Toast.LENGTH_LONG).show();
+        String title = TimeUtils.getYear() + TimeUtils.getMonth() + TimeUtils.getDay() + TimeUtils.getCurrentTime();
+        fileName = getSDPath() + "/Record/" + title + ".xls";
+        ExcelUtil.initExcel(fileName,title);
+//        ExcelUtil.exportCSV(fileName, getRecordData());
+
+        ExcelUtil.writeObjListToExcel(fileName, getRecordData(), this);
+        //Toast.makeText(this, "导出成功！\n文件导出路径：" + fileName, Toast.LENGTH_LONG).show();
     }
 
     private String getSDPath() {
@@ -275,7 +280,10 @@ public class AddPageActivity extends BaseActivity {
                     aMapLocation.getRoad();//街道信息
                     aMapLocation.getCityCode();//城市编码
                     aMapLocation.getAdCode();//地区编码
-                    gps.setText(aMapLocation.getLatitude() + "&" + aMapLocation.getAccuracy());
+                    double x = new BigDecimal(aMapLocation.getLatitude()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    double y = new BigDecimal(aMapLocation.getAccuracy()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+                    gps.setText(x + "&" + y);
                     //header_gps.setText(aMapLocation.getLatitude()+","+aMapLocation.getAccuracy());
                 } else {
 //                    Toast.makeText(AddPageActivity.this, "GPS定位失败：" + aMapLocation.getErrorInfo(), Toast.LENGTH_LONG).show();
@@ -542,7 +550,6 @@ public class AddPageActivity extends BaseActivity {
 
         return Gravity.START;
     }
-
 
 
     @Override

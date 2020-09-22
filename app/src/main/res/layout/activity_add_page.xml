@@ -261,7 +261,16 @@
                 app:jt_visible="false"
                 app:paddingLeft="15dp"
                 app:title="GPS坐标" />
-
+            <com.zhangqie.shoppingcart.widget.ItemGroup
+                android:id="@+id/ig_dept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:drawable_right="@mipmap/country_selecter"
+                app:isEditable="false"
+                app:jt_visible="false"
+                app:edt_content="广西国有六万林场林业调查规划设计队"
+                app:paddingLeft="15dp"
+                app:title="调查单位" />
             <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_person"
                 android:layout_width="match_parent"

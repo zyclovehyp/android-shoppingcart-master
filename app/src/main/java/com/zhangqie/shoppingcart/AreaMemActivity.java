@@ -19,6 +19,7 @@ import com.zhangqie.shoppingcart.model.SheetHeader;
 import com.zhangqie.shoppingcart.widget.ItemGroup;
 import com.zhangqie.shoppingcart.widget.MDialog;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -225,6 +226,7 @@ public class AreaMemActivity extends BaseActivity {
             mianji += areaModel.getArea();
         }
         mianji = mianji / 10000;
+        mianji = new BigDecimal(mianji).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
         sheet.setMianJi(String.valueOf(mianji));
         Intent i = new Intent();
         setResult(3, i.putExtra("result", sheet));

@@ -30,6 +30,7 @@ import com.zhangqie.shoppingcart.model.TreeModel;
 import com.zhangqie.shoppingcart.util.DataList;
 import com.zhangqie.shoppingcart.widget.ItemGroup;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.Bind;
@@ -77,7 +78,6 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         gps = findViewById(R.id.ig_gps);
         sheet = (SheetHeader) getIntent().getSerializableExtra("header");
-
 
 
         initLeftView();
@@ -148,7 +148,10 @@ public class MainActivity extends BaseActivity {
                     aMapLocation.getRoad();//街道信息
                     aMapLocation.getCityCode();//城市编码
                     aMapLocation.getAdCode();//地区编码
-                    gps.setText(aMapLocation.getLatitude() + "&" + aMapLocation.getAccuracy());
+                    double x = new BigDecimal(aMapLocation.getLatitude()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    double y = new BigDecimal(aMapLocation.getAccuracy()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+                    gps.setText(x + "&" + y);
                     //header_gps.setText(aMapLocation.getLatitude()+","+aMapLocation.getAccuracy());
                 } else {
 //                    Toast.makeText(AddPageActivity.this, "GPS定位失败：" + aMapLocation.getErrorInfo(), Toast.LENGTH_LONG).show();
