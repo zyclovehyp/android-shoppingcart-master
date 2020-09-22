@@ -43,7 +43,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
             bzdmj,
             gps,
             person,
-            date;
+            date, fc;
     Button ydmnum, save_btn;
     EditText other_edit;
     Switch type;
@@ -77,7 +77,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         save_btn.setOnClickListener(this);
         type = findByID(R.id.sheet_type);
         other_edit = findByID(R.id.other_edit);
-
+        fc = findByID(R.id.ig_fc);
 
         fczlb.setText("");
 
@@ -92,7 +92,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         person.setText("");
         ydmnum.setText("1");
         other_edit.setText("");
-
+        fc.setText("");
         ydno.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         lban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
         xban.getContentEdt().setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -396,6 +396,57 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                 });
             }
         });
+
+
+        fc.getJtRightIv().setImageResource(R.mipmap.country_selecter);
+        fc.setItemOnClickListener(new ItemGroup.ItemOnClickListener() {
+            @Override
+            public void onItemClick(final View v) {
+                initParam();
+                screenPopWindow = new ScreenPopWindow(context, fcDictList);
+                screenPopWindow.setOnDeleteClickListener(onDeleteClickListener);
+                screenPopWindow.getAdapter().setRightBtnClick(new ScreenListViewAdapter.OnRightBtnClick() {
+                    @Override
+                    public void onClick(EditText view, FiltrateBean filtrateBean) {
+                        if ("".equals(String.valueOf(view.getText()))) {
+                            return;
+                        }
+                        List<FiltrateBean.Children> children =
+                                filtrateBean.getChildren();
+                        for (FiltrateBean.Children child : children) {
+                            if (child.getValue().equals(view.getText().toString())) {
+                                Toast.makeText(context, "已存在", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                        FiltrateBean.Children cd = new FiltrateBean.Children();
+                        cd.setValue(view.getText().toString());
+                        filtrateBean.getChildren().add(cd);
+                        DictModel model = new DictModel();
+                        model.setType(filtrateBean.getTypeName());
+                        model.setValue(cd.getValue());
+                        dictDao.save(model);
+                        initParam();
+                        screenPopWindow.getAdapter().notifyDataSetChanged();
+
+                    }
+                });
+                //设置多选，因为共用的一个bean，这里调用reset重置下数据
+                screenPopWindow.setSingle(false).build();
+                screenPopWindow.showAsDropDown(fc.getContentEdt());
+                screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
+                    @Override
+                    public void onConfirmClick(List<String> list) {
+                        if (list.size() > 0) {
+                            fc.getContentEdt().setText(list.get(0));
+                        } else {
+                            fc.getContentEdt().setText("");
+                        }
+
+                    }
+                });
+            }
+        });
     }
 
 
@@ -416,7 +467,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         other_edit.setText(sheetHeader.getRemark());
         person.setText(sheetHeader.getPerson());
         type.setChecked("1".equals(sheetHeader.getType()));
-
+        fc.setText(sheetHeader.getFc());
         if (type.isChecked()) {
             sz.setText("");
             sz.getJtRightIv().setVisibility(View.VISIBLE);
@@ -469,8 +520,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         sheetHeader.setRemark(other_edit.getText().toString());
         sheetHeader.setPerson(person.getText());
         sheetHeader.setYdmnum(ydmnum.getText().toString());
-
-
+        sheetHeader.setFc(fc.getText());
         int id = 0;
         try {
             id = dao.save(sheetHeader);
@@ -494,7 +544,7 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         void startActivity(SheetHeader sheetHeader);
     }
 
-    private List<FiltrateBean> personDictList, yearDictList, qyDictList, fczlbDictList, szDictList;
+    private List<FiltrateBean> personDictList, yearDictList, qyDictList, fczlbDictList, szDictList, fcDictList;
     private ScreenPopWindow screenPopWindow;
 
     private void initParam() {
@@ -589,6 +639,23 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
         fb1.setChildren(childrenList);
         szDictList = new ArrayList<>();
         szDictList.add(fb1);
+
+
+        List<DictModel> fcPList = dictDao.list("分场人员");
+        fb1 = new FiltrateBean();
+        fb1.setTypeName("分场人员");
+
+        childrenList = new ArrayList<>();
+        for (DictModel dictModel : fcPList) {
+            FiltrateBean.Children cd = new FiltrateBean.Children();
+            cd.setValue(dictModel.getValue());
+            cd.setSelected(dictModel.getValue().equals(fc.getText()));
+            childrenList.add(cd);
+        }
+
+        fb1.setChildren(childrenList);
+        fcDictList = new ArrayList<>();
+        fcDictList.add(fb1);
 
     }
 }

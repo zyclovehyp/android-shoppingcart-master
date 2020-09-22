@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import jxl.Workbook;
 import jxl.WorkbookSettings;
@@ -96,6 +99,45 @@ public class ExcelUtil {
         }
     }
 
+    /**
+     * 初始化Excel
+     */
+    public static void initExcel(String fileName, Map<String, ArrayList<ArrayList<String>>> allData) {
+        format();
+        WritableWorkbook workbook = null;
+        try {
+            File file = new File(fileName);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            workbook = Workbook.createWorkbook(file);
+            Set<String> keys = allData.keySet();
+
+            Iterator<String> ki = keys.iterator();
+
+            int i = 0;
+            while (ki.hasNext()) {
+
+                WritableSheet sheet = workbook.createSheet(ki.next(), i);
+
+                i++;
+                sheet.setRowView(0, 340); //设置行高
+            }
+
+            workbook.write();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (workbook != null) {
+                try {
+                    workbook.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> void writeObjListToExcel(List<T> objList, String fileName, Context c) {
         if (objList != null && objList.size() > 0) {
@@ -149,54 +191,109 @@ public class ExcelUtil {
     }
 
 
-    public static void writeObjListToExcel(String filePath, ArrayList<ArrayList<String>> objList, Context c) {
-        if (objList != null && objList.size() > 0) {
-            WritableWorkbook writebook = null;
-            InputStream in = null;
-            try {
-                WorkbookSettings setEncode = new WorkbookSettings();
-                setEncode.setEncoding(UTF8_ENCODING);
-                in = new FileInputStream(new File(filePath));
-                Workbook workbook = Workbook.getWorkbook(in);
-                writebook = Workbook.createWorkbook(new File(filePath), workbook);
-                WritableSheet sheet = writebook.getSheet(0);
+
+    public static void writeObjListToExcel(String filePath, Map<String, ArrayList<ArrayList<String>>> allData, Context c) {
+        ArrayList<ArrayList<String>> objList = null;
+        WritableWorkbook writebook = null;
+        InputStream in = null;
+        try {
+            WorkbookSettings setEncode = new WorkbookSettings();
+            setEncode.setEncoding(UTF8_ENCODING);
+            in = new FileInputStream(new File(filePath));
+            Workbook workbook = Workbook.getWorkbook(in);
+
+            writebook = Workbook.createWorkbook(new File(filePath), workbook);
 
 
-                for (int j = 0; j < objList.size(); j++) {
-                    ArrayList<String> list = (ArrayList<String>) objList.get(j);
-                    for (int i = 0; i < list.size(); i++) {
-                        sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));
-                        if (list.get(i).length() <= 5) {
-                            sheet.setColumnView(i, list.get(i).length() + 8); //设置列宽
-                        } else {
-                            sheet.setColumnView(i, list.get(i).length() + 5); //设置列宽
-                        }
-                    }
-                    sheet.setRowView(j + 1, 350); //设置行高
-                }
+            Iterator<String> key = allData.keySet().iterator();
 
-                writebook.write();
-                Toast.makeText(c, filePath, Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (writebook != null) {
-                    try {
-                        writebook.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            int i = 0;
+            while (key.hasNext()) {
 
-                }
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                objList = allData.get(key.next());
+                WritableSheet sheet = writebook.getSheet(i);
+
+
+                writeSheet(objList, sheet);
+                i++;
             }
 
+
+            writebook.write();
+            Toast.makeText(c, filePath, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (writebook != null) {
+                try {
+                    writebook.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    private static void writeSheet(ArrayList<ArrayList<String>> objList, WritableSheet sheet) throws WriteException {
+
+
+        boolean isDan = false;
+        int line = 0;
+        for (int j = 0; j < objList.size(); j++) {
+            ArrayList<String> list = (ArrayList<String>) objList.get(j);
+            for (int i = 0; i < list.size(); i++) {
+                if (j == 0 || j == line) {
+                    sheet.addCell(new Label(i, j + 1, list.get(i), arial10format));
+                } else {
+                    sheet.addCell(new Label(i, j + 1, list.get(i), arial12format));
+                }
+                if (j == 5) {
+                    isDan = "5".equals(list.get(0));
+                }
+                if (isDan) {
+                    line = 31;
+                } else {
+                    line = 28;
+                }
+                sheet.setColumnView(i, 17); //设置列宽
+            }
+            sheet.setRowView(j + 1, 350); //设置行高
+        }
+        sheet.mergeCells(0, 1, 7, 1);
+
+        //单双径啊。。。
+        //双径。。。。。
+        if (isDan) {
+            sheet.mergeCells(1, 28, 7, 28);//其他记录
+            sheet.mergeCells(1, 29, 7, 29);//
+
+            sheet.mergeCells(1, 30, 2, 30);
+            sheet.mergeCells(4, 30, 5, 30);
+            sheet.mergeCells(0, 32, 8, 32);
+
+           /* sheet.mergeCells(1, 29, 7, 29);
+            sheet.mergeCells(1, 30, 2, 30);
+            sheet.mergeCells(4, 30, 5, 30);
+            sheet.mergeCells(0, 32, 8, 32);*/
+        } else {
+            sheet.mergeCells(1, 25, 7, 25);//其他记录
+            sheet.mergeCells(1, 26, 7, 26);//
+            sheet.mergeCells(1, 27, 2, 27);
+            sheet.mergeCells(4, 27, 5, 27);
+            sheet.mergeCells(0, 29, 8, 29);
+          /*  sheet.mergeCells(1, 26, 7, 26);
+            sheet.mergeCells(1, 27, 2, 27);
+            sheet.mergeCells(4, 27, 5, 27);
+            sheet.mergeCells(0, 29, 8, 29);*/
         }
     }
 

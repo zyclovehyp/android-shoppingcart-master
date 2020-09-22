@@ -34,6 +34,7 @@ public class SheetHeaderDao {
         values.put("ydmnum", sheetHeader.getYdmnum());
         values.put("remark", sheetHeader.getRemark());
         values.put("person", sheetHeader.getPerson());
+        values.put("fc",sheetHeader.getFc());
         if (-1 == sheetHeader.getSheetId()) {
             values.remove("sheet_id");
             Application.db.insert(SheetHeader.TABLE_NAME, values);
@@ -75,6 +76,7 @@ public class SheetHeaderDao {
             sheetHeader.setYdmnum(cursor.getString(cursor.getColumnIndex("ydmnum")));
             sheetHeader.setRemark(cursor.getString(cursor.getColumnIndex("remark")));
             sheetHeader.setPerson(cursor.getString(cursor.getColumnIndex("person")));
+            sheetHeader.setFc(cursor.getString(cursor.getColumnIndex("fc")));
             list.add(sheetHeader);
         }
 

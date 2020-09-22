@@ -51,6 +51,16 @@ public class SheetHeader implements Serializable {
 
     private String person;
 
+    private String fc;
+
+    public String getFc() {
+        return fc;
+    }
+
+    public void setFc(String fc) {
+        this.fc = fc;
+    }
+
     public String getYdmnum() {
         return ydmnum;
     }
@@ -231,7 +241,8 @@ public class SheetHeader implements Serializable {
                 ", type text" +
                 ", ydmnum text" +
                 ", remark text" +
-                ", person text)";
+                ", person text" +
+                ", fc text)";
     }
 
     public static final String TABLE_NAME = "sheet_header";

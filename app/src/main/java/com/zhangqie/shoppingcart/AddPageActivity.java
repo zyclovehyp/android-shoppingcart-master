@@ -41,7 +41,9 @@ import com.zhangqie.shoppingcart.widget.ItemGroup;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class AddPageActivity extends BaseActivity {
@@ -236,10 +238,14 @@ public class AddPageActivity extends BaseActivity {
 
         String title = TimeUtils.getYear() + TimeUtils.getMonth() + TimeUtils.getDay() + TimeUtils.getCurrentTime();
         fileName = getSDPath() + "/Record/" + title + ".xls";
-        ExcelUtil.initExcel(fileName,title);
+        Map<String, ArrayList<ArrayList<String>>> allData = getRecordData();
+
+
+        ExcelUtil.initExcel(fileName, allData);
+        ExcelUtil.writeObjListToExcel(fileName, allData, this);
 //        ExcelUtil.exportCSV(fileName, getRecordData());
 
-        ExcelUtil.writeObjListToExcel(fileName, getRecordData(), this);
+        //ExcelUtil.writeObjListToExcel(fileName, getRecordData(), this);
         //Toast.makeText(this, "导出成功！\n文件导出路径：" + fileName, Toast.LENGTH_LONG).show();
     }
 
@@ -325,11 +331,13 @@ public class AddPageActivity extends BaseActivity {
      *
      * @return
      */
-    private ArrayList<ArrayList<String>> getRecordData() {
-        recordList = new ArrayList<>();
+    private Map<String, ArrayList<ArrayList<String>>> getRecordData() {
+        Map<String, ArrayList<ArrayList<String>>> allSheet = new HashMap<>();
+
         for (int i = 0; i < all.size(); i++) {
 
             if (all.get(i).isCheck()) {
+                recordList = new ArrayList<>();
                 SheetHeader sheetHeader = all.get(i);
                 buildHeader(sheetHeader);
                 buildChild();
@@ -363,6 +371,9 @@ public class AddPageActivity extends BaseActivity {
                 beanList.add("");
                 beanList.add("");
                 beanList.add("");
+                beanList.add("");
+                beanList.add("");
+                beanList.add("");
                 recordList.add(beanList);
 
                 beanList = new ArrayList<String>();
@@ -370,11 +381,18 @@ public class AddPageActivity extends BaseActivity {
                 beanList.add(sheetHeader.getRemark());
                 recordList.add(beanList);
 
+                beanList = new ArrayList<String>();
+                beanList.add("调查单位");
+                beanList.add("广西国有六万林场林业调查规划设计队");
+                recordList.add(beanList);
+
 
                 beanList = new ArrayList<String>();
                 beanList.add("调查人员");
                 beanList.add(sheetHeader.getPerson());
-                beanList.add("分场");
+                beanList.add("");
+                beanList.add("分场人员");
+                beanList.add(sheetHeader.getFc());
                 beanList.add("");
                 beanList.add("调查日期");
                 beanList.add(sheetHeader.getDate());
@@ -384,12 +402,12 @@ public class AddPageActivity extends BaseActivity {
                 buildLine();
                 buildArea(sheetHeader);
 
-                buildLine();
+                allSheet.put(sheetHeader.getSheetNo(), recordList);
             }
 
 
         }
-        return recordList;
+        return allSheet;
     }
 
     private void buildLine() {
@@ -411,10 +429,10 @@ public class AddPageActivity extends BaseActivity {
 
         beanList = new ArrayList<String>();
 
-        beanList.add("");
-        beanList.add("");
-        beanList.add("");
         beanList.add("标准地调查记录表");
+        beanList.add("");
+        beanList.add("");
+        beanList.add("");
         beanList.add("");
         beanList.add("");
         beanList.add("");
@@ -489,10 +507,12 @@ public class AddPageActivity extends BaseActivity {
 
         beanList = new ArrayList<String>();
 
-        beanList.add("");
-        beanList.add("");
-
         beanList.add("样带面积计算表");
+        beanList.add("");
+        beanList.add("");
+        beanList.add("");
+        beanList.add("");
+        beanList.add("");
 
 
         recordList.add(beanList);

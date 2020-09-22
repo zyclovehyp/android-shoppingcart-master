@@ -283,6 +283,17 @@
                 app:title="调查人员" />
 
             <com.zhangqie.shoppingcart.widget.ItemGroup
+                android:id="@+id/ig_fc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:drawable_right="@mipmap/country_selecter"
+                app:edt_hint_content="请选择分场人员"
+                app:isEditable="false"
+                app:jt_visible="true"
+                app:paddingLeft="15dp"
+                app:title="分场人员" />
+
+            <com.zhangqie.shoppingcart.widget.ItemGroup
                 android:id="@+id/ig_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
