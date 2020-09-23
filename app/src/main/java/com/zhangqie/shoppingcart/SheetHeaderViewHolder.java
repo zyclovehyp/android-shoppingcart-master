@@ -437,8 +437,12 @@ public class SheetHeaderViewHolder implements View.OnClickListener {
                 screenPopWindow.setOnConfirmClickListener(new ScreenPopWindow.OnConfirmClickListener() {
                     @Override
                     public void onConfirmClick(List<String> list) {
+                        StringBuilder str = new StringBuilder();
+                        for (int i = 0; i < list.size(); i++) {
+                            str.append(list.get(i)).append("&");
+                        }
                         if (list.size() > 0) {
-                            fc.getContentEdt().setText(list.get(0));
+                            fc.getContentEdt().setText(str.deleteCharAt(str.length() - 1));
                         } else {
                             fc.getContentEdt().setText("");
                         }
