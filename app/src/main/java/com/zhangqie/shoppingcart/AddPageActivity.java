@@ -169,6 +169,7 @@ public class AddPageActivity extends BaseActivity {
                 String title = formTitleBar.getRightView().getText().toString();
                 if ("开始定位".equals(title)) {
                     formTitleBar.setRightTitle("停止定位");
+                    mLocationClient.stopLocation();
                     mLocationClient.startLocation();
                 } else {
                     formTitleBar.setRightTitle("开始定位");
@@ -287,7 +288,7 @@ public class AddPageActivity extends BaseActivity {
                     aMapLocation.getCityCode();//城市编码
                     aMapLocation.getAdCode();//地区编码
                     double x = new BigDecimal(aMapLocation.getLatitude()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    double y = new BigDecimal(aMapLocation.getAccuracy()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    double y = new BigDecimal(aMapLocation.getLongitude()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
 
                     gps.setText(x + "&" + y);
                     //header_gps.setText(aMapLocation.getLatitude()+","+aMapLocation.getAccuracy());

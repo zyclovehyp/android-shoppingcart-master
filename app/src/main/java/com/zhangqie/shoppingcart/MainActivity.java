@@ -149,7 +149,7 @@ public class MainActivity extends BaseActivity {
                     aMapLocation.getCityCode();//城市编码
                     aMapLocation.getAdCode();//地区编码
                     double x = new BigDecimal(aMapLocation.getLatitude()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
-                    double y = new BigDecimal(aMapLocation.getAccuracy()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
+                    double y = new BigDecimal(aMapLocation.getLongitude()).setScale(6, BigDecimal.ROUND_HALF_UP).doubleValue();
 
                     gps.setText(x + "&" + y);
                     //header_gps.setText(aMapLocation.getLatitude()+","+aMapLocation.getAccuracy());
