@@ -264,7 +264,7 @@ public class ExcelUtil {
                 } else {
                     line = 28;
                 }
-                sheet.setColumnView(i, 17); //设置列宽
+                sheet.setColumnView(i, 7); //设置列宽
             }
             sheet.setRowView(j + 1, 350); //设置行高
         }
